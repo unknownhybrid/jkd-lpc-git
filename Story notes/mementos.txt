@@ -1,10 +1,23 @@
 MEMENTOS
 
+
 camera
 -allows its keeper to record events between cycles
+
 glasses
 -allow their keeper to see people as they really are (identify the Seven?)
+
 paintbrush
 -
+
 key
+-
+
+?
+-
+
+?
+-
+
+?
 -

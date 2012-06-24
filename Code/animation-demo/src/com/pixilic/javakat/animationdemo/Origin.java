@@ -1,10 +1,8 @@
 package com.pixilic.javakat.animationdemo;
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.event.KeyEvent;
@@ -13,9 +11,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -33,6 +28,10 @@ public class Origin extends Thread implements KeyListener {
     //FIXME hardcoding
     SpriteMap testSM;
     Animation testAni;
+    
+    //keyboard
+    boolean[] keys;  
+    int lastDown=0; //the last key pressed because java fucking sucks
     
     private int width = 320;
     private int height = 240;
@@ -63,8 +62,9 @@ public class Origin extends Thread implements KeyListener {
         canvas.setSize(width * scale, height * scale);
         frame.add(canvas, 0);
         
-        //add keylistener
+        //keyboard shit
         frame.addKeyListener(this);
+        keys = new boolean[525];
         
         //load the images
         //FIXME: this is a shitty place to load images
@@ -166,7 +166,26 @@ public class Origin extends Thread implements KeyListener {
 
     public void updateGame() {
         // update game logic here
-    }
+    	
+    	//currently no keys are down
+    	boolean keyDown=false; 
+    	
+    	//this lastDown workaround is SO FUCKING STUPID
+    	if ( keys[KeyEvent.VK_UP] && lastDown==KeyEvent.VK_UP) {
+			testAni.setPath(PathEnum.PathName.RUN_UP); keyDown=true;
+    	}
+		if ( keys[KeyEvent.VK_DOWN] && lastDown==KeyEvent.VK_DOWN) {
+			testAni.setPath(PathEnum.PathName.RUN_DOWN); keyDown=true;
+		}
+		if ( keys[KeyEvent.VK_LEFT] && lastDown==KeyEvent.VK_LEFT) {
+			testAni.setPath(PathEnum.PathName.RUN_LEFT); keyDown=true;
+		}
+		if ( keys[KeyEvent.VK_RIGHT] && lastDown==KeyEvent.VK_RIGHT) {
+			testAni.setPath(PathEnum.PathName.RUN_RIGHT); keyDown=true;
+		}
+		    
+    	testAni.setActive(keyDown);
+	}
     
     public void renderGame(Graphics2D g) {
     	//g.drawImage(testSM, 0, 0, canvas);
@@ -177,39 +196,25 @@ public class Origin extends Thread implements KeyListener {
     }
 
     
-    public void keyTyped(KeyEvent e) {
+    //we don't need this
+    public void keyTyped(KeyEvent e) {    }
+     
+    public void keyPressed(KeyEvent e) { 
+    	int kc = e.getKeyCode();
+    	keys[kc] = true;
+    	lastDown=kc;
+    	//we set the last key to be pressed because java has no fucking way
+    	//to disable repeating key presses meaning that if you use a 
+    	//stack here they infinitely fill up the stack with duplicate keypresses
+    	//for as long as you hold the key. this is the hackiest workaround
+    	//ever but it's all I can figure to do and it gives the 
+    	//desired behavior so at this point fuck it
+    }
+
+    public void keyReleased(KeyEvent e) { 
+    	keys[e.getKeyCode()] = false;
+    } 
        
-    }
-     
-    public void keyPressed(KeyEvent e) {
-    	testAni.setActive(true);
-        switch(e.getKeyCode()){
-    	case KeyEvent.VK_UP:
-    		testAni.setPath(PathEnum.PathName.RUN_UP);
-    		break;
-        case KeyEvent.VK_RIGHT:
-        	testAni.setPath(PathEnum.PathName.RUN_RIGHT);
-        	break;
-    	case KeyEvent.VK_DOWN:
-    		testAni.setPath(PathEnum.PathName.RUN_DOWN);
-    		break;
-    	case KeyEvent.VK_LEFT:
-    		testAni.setPath(PathEnum.PathName.RUN_LEFT);
-    		break;
-    	default:
-    		break;
-        }
-    }
-     
-    public void keyReleased(KeyEvent e) {
-        if((e.getKeyCode() == KeyEvent.VK_UP && testAni.getCurrentPathName() == PathEnum.PathName.RUN_UP) 
-        		|| (e.getKeyCode() == KeyEvent.VK_RIGHT && testAni.getCurrentPathName() == PathEnum.PathName.RUN_RIGHT)
-        		|| (e.getKeyCode() == KeyEvent.VK_DOWN && testAni.getCurrentPathName() == PathEnum.PathName.RUN_DOWN)
-        		|| (e.getKeyCode() == KeyEvent.VK_LEFT && testAni.getCurrentPathName() == PathEnum.PathName.RUN_LEFT)){
-        	testAni.setActive(false);
-        }
-    }
-     
     public static void main(final String args[]) {
     	
         new Origin();

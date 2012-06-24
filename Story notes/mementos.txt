@@ -49,6 +49,17 @@ should ever even explain it, since a bit of mystery is good.
 ***clay***
 that's a cool idea, charlie, and it's how each character sort of "copes" with all of that information that differentiates how their memento works. i added some more ideas and possible uses down at the bottom, but it would be great to get more.
 
+9pm CST 23.6.12:
+@Charlie 
+It's all open to change, as far as I'm aware--it is a group project--, but I think Jake originally wanted the glasses character to be the one who brought the characters together, at least in this game. The idea was that the glasses let him see who people were, and the gameplay was centered on using what you learned from them to prove to each character that their memento belonged to them, etc. But both ideas are cool, and I'm not certain how to put the key to use right now, aside from your idea. 
+@Jake, what do you think?
+
+but yeah, here's another possibility:
+rather than have a timer to the End of the World, have it where as you learn more, the world crumbles more. That way it isn't a hard timer, but one based on your own progress. You'd never have to stop playing before you're ready--key events would be driven by the player. As for the functionality of the glasses, how about this: the character does not immediately realize anything out of the ordinary about his glasses, just an odd quirk here or there, things others don't notice, things at the edges of his vision. as he picks up clues to the real nature of himself and his glasses, he sees more and more with them (and therefore, the world gets more and more fantastical--or more and more corrupt, since it also means the world is falling apart) until eventually you can only (bear to?) use them in bursts, short contexts where it doesn't drive you mad, to pick up very specific clues by the time of the endgame.
+Another possibility with that idea is that, unbeknownst to the characters for a couple of games, THEY are the ones speeding up the destruction of the universe; it's a popular game mechanic to have player-driven storyline even though there's supposed to be a timer, but this lampshades the concept with the fact that it's actually the player's efforts to save the universe that make it collapse. They wouldn't find this out until that third game jake was talking about, when miss Ayn Rand over there decides that it's pointless to save the universe, and does whatever she wants--only to find that the universe isn't collapsing, and she has to deal with the consequences of her actions.
+
+**********
+
 
 
 camera

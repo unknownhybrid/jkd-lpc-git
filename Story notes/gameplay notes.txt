@@ -28,6 +28,9 @@ USING MEMENTOS:
 -only associated character can use memento as special item
 -resources required to use mementos
 --time as a resource
+----restorable by memento?
+----restorable by items?
+----restorable by clues?
 --sanity as a resource
 -different functionality depending on game progress
 --toward endgame, difficult to use mementos
@@ -43,6 +46,7 @@ MEMENTO USES:
 --memories/future echoes of character's lives
 -each memento has a different use
 --glasses find clues, camera records them, brush changes universe (?), key unlocks end of universe (?)
+--temporal trails showing paths taken in previous cycles (watch Donnie Darko for examples of this)
 
 
 

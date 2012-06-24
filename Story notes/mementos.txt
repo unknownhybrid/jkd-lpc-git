@@ -26,6 +26,24 @@ through maybe some small memory cutscene, and we subtract a noticeable amount of
 memories will be obvious, so you don't miss them, but we can have a decent number of small but cool memories, more than
 the player can actually view in one run through of the game. It adds replay value, give us more character building moments,
 and introduces choice for the player.
+
+@Clay
+These are my ideas, going based on the stuff I've come up with, since it will fundamentally affect how a lot of this
+will work. I'm aiming for each type of momento to express memories in a different way, each one having its own
+advantages and quirks.
+
+-Glasses: Visual memories with some slight dialogue, skewed based on this characters perception of the situation.
+-Camera: Visual memories, more accurate of reality than the glasses, but very broken up. Basically like a slideshow of
+things related to the situation, still shots of people and objects relating to it. No dialogue component.
+-Earrings: Audio equivalent of Glasses. Lots of dialogue with slight visuals, perception influenced.
+-Tape Recorder: Audio equivalent of Camera.
+-Paintbrush: Visual memories, but very overexaggerated and highly stylized. No audio components.
+-Microphone: Audio memories, done in the form of songs. Dialogue will basically play along with the background music
+as if it were a sing-along.
+-Key: I kind of want this to be the final Momento, the 7th, and the character who holds this one, is that mysterious 
+person who helps to bring the others together behind the scenes. I'm not sure what this momento should do, or if we
+should ever even explain it, since a bit of mystery is good.
+
 *************************
 
 ***clay***

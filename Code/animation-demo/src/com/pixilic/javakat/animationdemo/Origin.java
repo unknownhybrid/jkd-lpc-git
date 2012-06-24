@@ -110,7 +110,11 @@ public class Origin extends Thread {
 
     public void run() {
         backgroundGraphics = (Graphics2D) background.getGraphics();
-        long fpsWait = (long) (1.0 / 30 * 1000);
+        
+        //FIXME hardcoded fps
+        int fps = 10;
+        long fpsWait = (long) (1.0 / fps * 1000);
+        
         main: while (isRunning) {
                 long renderStart = System.nanoTime();
                 updateGame();

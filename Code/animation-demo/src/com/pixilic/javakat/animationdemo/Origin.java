@@ -11,6 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Stack;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -30,8 +33,9 @@ public class Origin extends Thread implements KeyListener {
     Animation testAni;
     
     //keyboard
-    boolean[] keys;  
-    int lastDown=0; //the last key pressed because java fucking sucks
+    //boolean[] keys;  
+    //int lastDown=0; //the last key pressed because java fucking sucks
+    private Stack<PathName> arrowDown;
     
     private int width = 320;
     private int height = 240;
@@ -64,7 +68,7 @@ public class Origin extends Thread implements KeyListener {
         
         //keyboard shit
         frame.addKeyListener(this);
-        keys = new boolean[525];
+        arrowDown = new Stack<PathName>();
         
         //load the images
         //FIXME: this is a shitty place to load images
@@ -168,23 +172,13 @@ public class Origin extends Thread implements KeyListener {
         // update game logic here
     	
     	//currently no keys are down
-    	boolean keyDown=false; 
+    	//boolean keyDown=false; 
     	
     	//this lastDown workaround is SO FUCKING STUPID
-    	if ( keys[KeyEvent.VK_UP] && lastDown==KeyEvent.VK_UP) {
-			testAni.setPath(PathEnum.PathName.RUN_UP); keyDown=true;
-    	}
-		if ( keys[KeyEvent.VK_DOWN] && lastDown==KeyEvent.VK_DOWN) {
-			testAni.setPath(PathEnum.PathName.RUN_DOWN); keyDown=true;
-		}
-		if ( keys[KeyEvent.VK_LEFT] && lastDown==KeyEvent.VK_LEFT) {
-			testAni.setPath(PathEnum.PathName.RUN_LEFT); keyDown=true;
-		}
-		if ( keys[KeyEvent.VK_RIGHT] && lastDown==KeyEvent.VK_RIGHT) {
-			testAni.setPath(PathEnum.PathName.RUN_RIGHT); keyDown=true;
-		}
-		    
-    	testAni.setActive(keyDown);
+    	if(!arrowDown.empty()){
+    		testAni.setPath(arrowDown.peek());
+    		testAni.setActive(true);
+    	} else testAni.setActive(false);
 	}
     
     public void renderGame(Graphics2D g) {
@@ -199,10 +193,16 @@ public class Origin extends Thread implements KeyListener {
     //we don't need this
     public void keyTyped(KeyEvent e) {    }
      
-    public void keyPressed(KeyEvent e) { 
-    	int kc = e.getKeyCode();
-    	keys[kc] = true;
-    	lastDown=kc;
+    public void keyPressed(KeyEvent e) {
+    	PathName pathname = getPathNameFromKey(e);
+    	if(pathname != null){
+    		if(!arrowDown.contains(pathname)){
+    			arrowDown.push(pathname);
+    		}
+    	}
+    	//int kc = e.getKeyCode();
+    	//keys[kc] = true;
+    	//lastDown=kc;
     	//we set the last key to be pressed because java has no fucking way
     	//to disable repeating key presses meaning that if you use a 
     	//stack here they infinitely fill up the stack with duplicate keypresses
@@ -212,9 +212,25 @@ public class Origin extends Thread implements KeyListener {
     }
 
     public void keyReleased(KeyEvent e) { 
-    	keys[e.getKeyCode()] = false;
+    	PathName pathname = getPathNameFromKey(e);
+    	if(arrowDown.contains(pathname)){
+    		arrowDown.remove(pathname);
+    	}
     } 
-       
+    private PathName getPathNameFromKey(KeyEvent e){
+    	switch(e.getKeyCode()){
+		case KeyEvent.VK_UP:
+			return PathEnum.PathName.RUN_UP;
+		case KeyEvent.VK_RIGHT:
+			return PathEnum.PathName.RUN_RIGHT;
+		case KeyEvent.VK_DOWN:
+			return PathEnum.PathName.RUN_DOWN;
+		case KeyEvent.VK_LEFT:
+			return PathEnum.PathName.RUN_LEFT;
+		default:
+			return null;
+		}
+    }
     public static void main(final String args[]) {
     	
         new Origin();

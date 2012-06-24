@@ -1,3 +1,4 @@
+package com.pixilic.javakat.animationdemo;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 

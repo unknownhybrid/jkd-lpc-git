@@ -1,3 +1,4 @@
+package com.pixilic.javakat.animationdemo;
 import java.util.HashMap;
 
 public class Animation {

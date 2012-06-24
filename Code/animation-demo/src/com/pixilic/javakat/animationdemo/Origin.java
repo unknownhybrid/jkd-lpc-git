@@ -1,3 +1,4 @@
+package com.pixilic.javakat.animationdemo;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -9,7 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -134,6 +137,17 @@ public class Origin extends Thread {
 
     public void updateGame() {
         // update game logic here
+    }
+    
+    private BufferedImage loadImage(String name) {
+        String imgFileName = "images/weather-"+name+".png";
+        URL url = Origin.class.getResource(imgFileName);
+        BufferedImage img = null;
+        try {
+            img =  ImageIO.read(url);
+        } catch (Exception e) {
+        }
+        return img;
     }
 
     public void renderGame(Graphics2D g) {

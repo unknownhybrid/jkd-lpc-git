@@ -1,5 +1,19 @@
 MEMENTOS
 
+***Charlie's Addition***
+Going based on the idea I added to the universe notes. A Momento is linked with a specific individual, and can even be
+linked with several individuals (maybe have a cool brother/sister pair), and no one outside of these individuals can interact
+with the momento, as it appears to be an ordinary object. To better explain this, I need to explain how a momento is formed.
+In extremely rare instances, a very small region of spacetime will compress more than the area around it, and in order to
+return to equilibrium, it will uncompress to match the rest of the area again. If an individual happens to be in this area,
+they experience all of the stuff that they would have experienced had the compression of time progressed that far normally.
+However, their mind can't really handle it, because it is basically shoving many different lifetimes into their head all
+at once. A momento is an object which was also present when this unusual compression occurred, it appears within all
+the lifetimes that they experienced. When the individual interacts with it, it brings back memories of what is going 
+to happen at any point of the compression. ie. The glasses don't really change how someone sees something, but they provoke
+intense memories in that character, essentially of how the future looks.
+*************************
+
 camera
 -allows its keeper to record events between cycles
 glasses

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.event.WindowAdapter;
@@ -24,6 +25,10 @@ public class Origin extends Thread {
     private Graphics2D backgroundGraphics;
     private Graphics2D graphics;
     private JFrame frame;
+    
+    //FIXME: gross hardcoding
+    private Image testSM;
+    
     private int width = 320;
     private int height = 240;
     private int scale = 1;
@@ -52,7 +57,13 @@ public class Origin extends Thread {
         canvas = new Canvas(config);
         canvas.setSize(width * scale, height * scale);
         frame.add(canvas, 0);
+        
+        //load images
+    	//FIXME: this needs to like, not be done here
+        testSM = loadImage("test2_spritemap");
 
+        
+        
         // Background & Buffer
         background = create(width, height, false);
         canvas.createBufferStrategy(2);
@@ -139,22 +150,26 @@ public class Origin extends Thread {
         // update game logic here
     }
     
-    private BufferedImage loadImage(String name) {
-        String imgFileName = "images/weather-"+name+".png";
+    private static BufferedImage loadImage(String name) {
+        String imgFileName = "rsrc/"+name+".png";
         URL url = Origin.class.getResource(imgFileName);
         BufferedImage img = null;
         try {
             img =  ImageIO.read(url);
         } catch (Exception e) {
+        	System.out.println("Couldnt loadImage("+name+");");
         }
         return img;
     }
 
     public void renderGame(Graphics2D g) {
         //g.drawImage();
+    	g.drawImage(testSM, 0, 0, canvas);
+    	
     }
 
     public static void main(final String args[]) {
+    	
         new Origin();
     }
 }

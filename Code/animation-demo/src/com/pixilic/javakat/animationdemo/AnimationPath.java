@@ -16,8 +16,8 @@ public class AnimationPath {
 	}
 	public void next(){
 		//jake this is super clever. <3 --HF
-		currentFrame = path.pop();
-		path.push(currentFrame);
+		currentFrame = path.remove();
+		path.add(currentFrame);
 	}
 	public BufferedImage getCurrentFrame() {
 		if ( currentFrame == null ) next(); //I SMART

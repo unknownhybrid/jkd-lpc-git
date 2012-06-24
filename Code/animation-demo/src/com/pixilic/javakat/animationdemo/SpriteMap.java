@@ -7,6 +7,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import static com.pixilic.javakat.animationdemo.PathEnum.*;
+
 public class SpriteMap {
 	protected BufferedImage image;
 	protected int width;
@@ -16,7 +18,7 @@ public class SpriteMap {
 		
 		String imgFileName = "rsrc/"+name+".png";
         URL url = Origin.class.getResource(imgFileName);
-        BufferedImage image = null;
+        image = null;
         try {
             image = ImageIO.read(url);
         } catch (IOException e) {
@@ -36,16 +38,18 @@ public class SpriteMap {
 			//FIXME
 			switch(y){
 			case 0:
-				anim.paths.put(Animation.PathName.RUN_UP, row);
+				//I say, "fuck the 'hating abstraction'" thing
+				//anim.paths.put(Animation.PathName.RUN_UP, row);
+				anim.addPath(PathName.RUN_UP, row);
 				break;
 			case 1:
-				anim.paths.put(Animation.PathName.RUN_RIGHT, row);
+				anim.addPath(PathName.RUN_RIGHT, row);
 				break;
 			case 2:
-				anim.paths.put(Animation.PathName.RUN_DOWN, row);
+				anim.addPath(PathName.RUN_DOWN, row);
 				break;
 			case 3:
-				anim.paths.put(Animation.PathName.RUN_LEFT, row);
+				anim.addPath(PathName.RUN_LEFT, row);
 				break;
 			}	
 		}

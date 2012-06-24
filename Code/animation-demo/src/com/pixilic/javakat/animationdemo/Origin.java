@@ -26,6 +26,10 @@ public class Origin extends Thread {
     private Graphics2D graphics;
     private JFrame frame;
     
+    //FIXME hardcoding
+    SpriteMap testSM;
+    Animation testAni;
+    
     private int width = 320;
     private int height = 240;
     private int scale = 1;
@@ -54,6 +58,11 @@ public class Origin extends Thread {
         canvas = new Canvas(config);
         canvas.setSize(width * scale, height * scale);
         frame.add(canvas, 0);
+        
+        //load the images
+        //FIXME: this is a shitty place to load images
+        testSM = new SpriteMap("test2_spritemap",46,50);
+        testAni = testSM.createPaths();
         
         // Background & Buffer
         background = create(width, height, false);
@@ -143,7 +152,8 @@ public class Origin extends Thread {
     
     public void renderGame(Graphics2D g) {
     	//g.drawImage(testSM, 0, 0, canvas);
-    	
+    	g.drawImage(testAni.getCurrentPath().getCurrentFrame(), 0, 0, canvas); //hahahaaha
+    	testAni.next();   	
     }
 
     public static void main(final String args[]) {

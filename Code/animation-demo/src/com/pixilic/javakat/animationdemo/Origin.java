@@ -17,6 +17,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import com.pixilic.javakat.animationdemo.PathEnum.PathName;
+
 public class Origin extends Thread {
     private boolean isRunning = true;
     private Canvas canvas;
@@ -61,8 +63,10 @@ public class Origin extends Thread {
         
         //load the images
         //FIXME: this is a shitty place to load images
-        testSM = new SpriteMap("test2_spritemap",46,50);
+        testSM = new SpriteMap("female_walkcycle",64,64);
         testAni = testSM.createPaths();
+        //FIXME: change the path here
+        testAni.setPath(PathName.RUN_LEFT);
         
         // Background & Buffer
         background = create(width, height, false);
@@ -109,10 +113,11 @@ public class Origin extends Thread {
     }
 
     public void run() {
-        backgroundGraphics = (Graphics2D) background.getGraphics();
-        
+    	
+    	backgroundGraphics = (Graphics2D) background.getGraphics();
+    	
         //FIXME hardcoded fps
-        int fps = 10;
+        int fps = 15;
         long fpsWait = (long) (1.0 / fps * 1000);
         
         main: while (isRunning) {
@@ -125,6 +130,10 @@ public class Origin extends Thread {
                         if (!isRunning) {
                                 break main;
                         }
+                        
+                        //this next line blanks the frame
+                    	backgroundGraphics.clearRect(0, 0, width, height);
+                    	
                         renderGame(backgroundGraphics); // this calls your draw method
                         // thingy
                         if (scale != 1) {

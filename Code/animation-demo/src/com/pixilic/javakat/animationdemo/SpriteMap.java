@@ -33,6 +33,7 @@ public class SpriteMap {
 		for(int y = 0; y < image.getHeight() / height; y++){
 			AnimationPath row = new AnimationPath();
 			for(int x = 0; x < image.getWidth() / width; x++){
+				if(x == 0) row.setFirstFrame(image.getSubimage(x*width, y*height, width, height));
 				row.add(image.getSubimage(x*width, y*height, width, height));
 			}
 			//FIXME
@@ -40,15 +41,19 @@ public class SpriteMap {
 			case 0:
 				//I say, "fuck the 'hating abstraction'" thing
 				//anim.paths.put(Animation.PathName.RUN_UP, row);
+				row.pathname = PathName.RUN_UP;
 				anim.addPath(PathName.RUN_UP, row);
 				break;
-			case 1:
+			case 3:
+				row.pathname = PathName.RUN_RIGHT;
 				anim.addPath(PathName.RUN_RIGHT, row);
 				break;
 			case 2:
+				row.pathname = PathName.RUN_DOWN;
 				anim.addPath(PathName.RUN_DOWN, row);
 				break;
-			case 3:
+			case 1:
+				row.pathname = PathName.RUN_LEFT;
 				anim.addPath(PathName.RUN_LEFT, row);
 				break;
 			}	

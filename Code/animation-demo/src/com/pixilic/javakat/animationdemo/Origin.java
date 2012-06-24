@@ -7,6 +7,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Transparency;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
@@ -19,7 +21,7 @@ import javax.swing.WindowConstants;
 
 import com.pixilic.javakat.animationdemo.PathEnum.PathName;
 
-public class Origin extends Thread {
+public class Origin extends Thread implements KeyListener {
     private boolean isRunning = true;
     private Canvas canvas;
     private BufferStrategy strategy;
@@ -60,6 +62,9 @@ public class Origin extends Thread {
         canvas = new Canvas(config);
         canvas.setSize(width * scale, height * scale);
         frame.add(canvas, 0);
+        
+        //add keylistener
+        frame.addKeyListener(this);
         
         //load the images
         //FIXME: this is a shitty place to load images
@@ -165,10 +170,46 @@ public class Origin extends Thread {
     
     public void renderGame(Graphics2D g) {
     	//g.drawImage(testSM, 0, 0, canvas);
-    	g.drawImage(testAni.getCurrentPath().getCurrentFrame(), 0, 0, canvas); //hahahaaha
-    	testAni.next();   	
+    	if(testAni.isActive()){
+    		g.drawImage(testAni.getCurrentPath().getCurrentFrame(), 0, 0, canvas); //hahahaaha
+    		testAni.next();   	
+    	} else g.drawImage(testAni.getCurrentPath().getFirstFrame(), 0, 0, canvas);
     }
 
+    
+    public void keyTyped(KeyEvent e) {
+       
+    }
+     
+    public void keyPressed(KeyEvent e) {
+    	testAni.setActive(true);
+        switch(e.getKeyCode()){
+    	case KeyEvent.VK_UP:
+    		testAni.setPath(PathEnum.PathName.RUN_UP);
+    		break;
+        case KeyEvent.VK_RIGHT:
+        	testAni.setPath(PathEnum.PathName.RUN_RIGHT);
+        	break;
+    	case KeyEvent.VK_DOWN:
+    		testAni.setPath(PathEnum.PathName.RUN_DOWN);
+    		break;
+    	case KeyEvent.VK_LEFT:
+    		testAni.setPath(PathEnum.PathName.RUN_LEFT);
+    		break;
+    	default:
+    		break;
+        }
+    }
+     
+    public void keyReleased(KeyEvent e) {
+        if((e.getKeyCode() == KeyEvent.VK_UP && testAni.getCurrentPathName() == PathEnum.PathName.RUN_UP) 
+        		|| (e.getKeyCode() == KeyEvent.VK_RIGHT && testAni.getCurrentPathName() == PathEnum.PathName.RUN_RIGHT)
+        		|| (e.getKeyCode() == KeyEvent.VK_DOWN && testAni.getCurrentPathName() == PathEnum.PathName.RUN_DOWN)
+        		|| (e.getKeyCode() == KeyEvent.VK_LEFT && testAni.getCurrentPathName() == PathEnum.PathName.RUN_LEFT)){
+        	testAni.setActive(false);
+        }
+    }
+     
     public static void main(final String args[]) {
     	
         new Origin();

@@ -4,11 +4,17 @@ example: a ladder
 an NPC in a village with a ladder should not be able to climb the ladder
 but a player should
 so
+
+
 Order of the next few tasks as I see it:
 1. Map loading
 2. Movement across a map
-3. Unit collision
+3. Unit collision/object definitions (in xml)
 4. Unit interaction/dialogue boxes/descriptions associated with objects
+
+
+
+
 then after that we can actually do the true game mechanics
 and then we are done
 that is a massive oversimplification

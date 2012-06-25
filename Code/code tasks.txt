@@ -1,0 +1,128 @@
+PHASE 1 - ENGINE:
+Tasks left to complete:
+
+1. Map loading.
+	This will involve reading tile layouts from one xml and then the positions of 
+	those tiles within the tile map image from another xml. Then we'll have to render
+	only the relevant or in-view part of the whole Map object.
+
+	Definitions:
+	Tile - here, a 32 x 32, pixel-art chunk of awesome environment, thank you Puvi!
+	Tile map - I'm calling the "tile map" the large file or group of smaller files that 
+			will contain all relevant tiles.
+
+	1a. Tile layout XML.
+		This XML file will need to tie each tile in a Map to a certain tile image.
+		Additionally, we should consider making "chunks" if possible, since lots
+		of regions may have just one tile or a repeating pattern of tiles that is
+		both predictable and redundant that we may not want to type in tons of times.
+
+	1b. Tile definitions XML.
+		This XML file will state where, in the tilemap image, each tile subimage is
+		located. Each tile will also have associated information, including (but not 
+		limited to) the following:
+
+			-isPortal (for determining whether or not this tile takes you to 
+					another place)
+			-portalStart
+			-portalEnd (should these two be handled differently?)
+
+2. Possibly a map creator?
+	It will be horrendously tedious to manually create map xml files, so we may need
+	to code software to let us do it with a GUI. This may overcomplicate matters though.
+
+3. Defining moving objects (Actors? Characters?)
+	Animated objects need position on the map and definitions for how they move. 
+	i.e. NPCs have a simple wandering AI (or not sometimes), player characters are 
+	controlled by the player, enemies (if existent) have some basic AI for chasing you
+	down, etc.
+	
+	Also, the game logic needs to prevent Characters from moving into things that have
+	unit collision with their type.
+
+	Relevant details/flags:
+		-hasUnitCollision
+		-hasNPCOnlyUnitCollision (for ladders and other places we don't want
+							NPCs getting themselves stuck)
+		-isTall (for determining whether to render it on the layer above or
+					below the player)
+4. Unit interaction/dialogue boxes/object descriptions/conversation
+	I haven't the slightest idea of how to do this properly. I know interactive things
+	will also always have unit collision with the player (unless someone can think of a
+	time in which this is not the case), and a button press can freeze user input except
+ 	for the "read shit" button as well as display the dialogue layer or whatever
+
+5. Inventory
+	I want the inventory menu to have a Mementos menu, a map, a dialogue log that 
+	highlights important things people said maybe?, and a typable journal in which
+	the player can save notes. This implementation will require lots of little boxes,
+	cursor control...basically a completely different engine. As such perhaps we should
+	make the menu fullscreen so as to complete the divide between what needs to be 
+	rendered and keep things clear to us as programmers.
+
+PHASE 2 - GAMEPLAY
+Tasks left to complete:
+
+1. LITERALLY EVERYTHING
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+then after that we can actually do the true game mechanics
+and then we are done
+that is a massive oversimplification
+but that is the general flow as I see it
+
+all characters (unless some really weird ghost things are implemented) will have a true unitCollision flag, or maybe we will just say that Characters have unit collision and if something is a Character then it collides and don't even check flags
+but some Environment blocks will have different kinds of unit collision flags
+example: a ladder
+an NPC in a village with a ladder should not be able to climb the ladder
+but a player should
+so

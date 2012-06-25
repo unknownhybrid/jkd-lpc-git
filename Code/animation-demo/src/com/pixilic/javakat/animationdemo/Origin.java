@@ -11,9 +11,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Stack;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -29,8 +32,9 @@ public class Origin extends Thread implements KeyListener {
     private JFrame frame;
     
     //FIXME hardcoding
-    SpriteMap testSM;
-    Animation testAni;
+    private SpriteMap testSM;
+    private Animation testAni;
+    private BufferedImage watermark; 
     
     //keyboard
     //boolean[] keys;  
@@ -76,7 +80,13 @@ public class Origin extends Thread implements KeyListener {
         testAni = testSM.createPaths();
         //FIXME: change the path here
         testAni.setPath(PathName.RUN_LEFT);
-        
+        URL url = Origin.class.getResource("rsrc/memento-logo-black-background-watermark.png");
+        watermark = null;
+        try {
+            watermark = ImageIO.read(url);
+        } catch (IOException e) {
+        	System.out.println("Couldnt load sprite map from rsrc/memento-logo-black-background-watermark.png");
+        }
         // Background & Buffer
         background = create(width, height, false);
         canvas.createBufferStrategy(2);
@@ -187,6 +197,7 @@ public class Origin extends Thread implements KeyListener {
     		g.drawImage(testAni.getCurrentPath().getCurrentFrame(), 0, 0, canvas); //hahahaaha
     		testAni.next();   	
     	} else g.drawImage(testAni.getCurrentPath().getFirstFrame(), 0, 0, canvas);
+    	g.drawImage(watermark, 240, 140, 60, 60, canvas);
     }
 
     
@@ -232,7 +243,6 @@ public class Origin extends Thread implements KeyListener {
 		}
     }
     public static void main(final String args[]) {
-    	
         new Origin();
     }
 }

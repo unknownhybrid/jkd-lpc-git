@@ -5,17 +5,17 @@ import com.pixilic.javakat.mapdemo.PermanentType;
 import com.pixilic.javakat.mapdemo.Direction;
 
 public abstract class Permanent {
-	protected int xPos;
-	protected int yPos;
-	protected int zPos; //can be renamed 'layer' if that makes better sense
+	int xPos;
+	int yPos;
+	int zPos; //can be renamed 'layer' if that makes better sense
 
-	protected Animation anim;
+	Animation anim;
 	
-	protected boolean hasUnitCollision;
-	protected boolean hasNPCUnitCollision;
-	protected boolean isMobile;
+	boolean hasUnitCollision;
+	boolean hasNPCUnitCollision;
+	boolean isMobile;
 
-	protected String name;
+	String name;
 	
 	
 	//functionality

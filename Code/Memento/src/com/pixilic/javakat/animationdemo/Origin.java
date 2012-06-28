@@ -13,7 +13,6 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Stack;
 
 import javax.imageio.ImageIO;

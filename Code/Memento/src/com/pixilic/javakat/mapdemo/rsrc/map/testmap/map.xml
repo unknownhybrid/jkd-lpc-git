@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map width="16" height="16">
+	<entity type="Tile" tlX="0" tlY="0" brX="4" brY="5" z="0" col="true" npcCol="true" mob="false" />
+</map>

@@ -52,10 +52,13 @@ public class MapLoader {
 		 * the xml in which case you could have just modified the class
 		 * files if you wanted to anyway!
 		 */
-
+		
+		String classToLoad = this.getClass().getPackage().getName() + "." + type;
+		System.out.println("Loading " + classToLoad);
+		
 		Entity temp = null;
 		try {
-			temp = (Entity) Class.forName(type).newInstance();
+			temp = (Entity) Class.forName(classToLoad).newInstance();
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -2,7 +2,7 @@ package com.pixilic.javakat.mapdemo;
 
 import java.security.InvalidParameterException;
 
-public /*abstract*/ class Entity {  // not abstract for now.
+public abstract class Entity {  // not abstract for now.
 									//but it should be, because an "Entity"
 									//makes no sense by itself
 	

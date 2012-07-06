@@ -27,14 +27,17 @@ lliisstteenniinngg..
 
 package com.pixilic.javakat.mapdemo;
 
+import java.util.Arrays;
+
 public class Map {
 
-	Entity[][] ents;
+	Entity[][][] ents;
 	int width;
 	int height;
+	int depth = 3; //FIXME hardcoding
 		
 	public Map(int width, int height) {
-		this.ents = new Entity[width][height];
+		this.ents = new Entity[width][height][depth];
 		for ( int x=0;x<width;x++ ) {
 			for ( int y=0;y<height;y++ ) {
 				ents[x][y]=null;
@@ -45,7 +48,16 @@ public class Map {
 	}
 
 	public void set(int x,int y,Entity en) {
-		ents[x][y]=en;
+		
+		for ( Entity t : ents[x][y] ) {
+			if ( t == null ) {
+				t=en;
+				return;
+			}
+		}
+		//HAHAHAHAHAHA!
+		Arrays.sort(ents[x][y]);
+		
 	}
 
 }

@@ -1,13 +1,13 @@
+//Give me a Persian rug where the center looks like Galaga
 package com.pixilic.javakat.mapdemo;
 
 import java.security.InvalidParameterException;
 
-public /*abstract*/ class Entity {  // not abstract for now.
-									//but it should be, because an "Entity"
-									//makes no sense by itself
+public abstract class Entity implements Comparable<Entity> {
+	//comparable is my favorite comparable
 	
-	int width, height, zIndex;
-	boolean col, npcCol, mob;
+	protected int width, height, zIndex;
+	protected boolean col, npcCol, mob;
 	
 	public Entity() {
 		
@@ -32,7 +32,16 @@ public /*abstract*/ class Entity {  // not abstract for now.
 		zIndex = z;
 	}
 	
+	public int getZIndex() {
+		return(zIndex);
+	}
+	
 	public void setParams(boolean c,boolean n,boolean m) {
 		col=c;npcCol=n;mob=m;
+	}
+	
+	public int compareTo(Entity o) {
+		return ((Entity) o).getZIndex() - zIndex;
+		
 	}
 }

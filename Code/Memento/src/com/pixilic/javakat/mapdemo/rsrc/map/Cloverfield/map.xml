@@ -2,6 +2,9 @@
 <map width="16" height="16" name="Cloverfield">
 
 	<!-- drawing of this map is here: http://puu.sh/GTih -->
+	<!-- your resources need to look like this: http://puu.sh/GVh6
+	if they do not, delete your Memento project and then add it again
+	if this doesn't help, ask me about it --HF -->
 	
 	<entity type="Tile" name="Cloverleaf"
 	tlX="0" tlY="0"

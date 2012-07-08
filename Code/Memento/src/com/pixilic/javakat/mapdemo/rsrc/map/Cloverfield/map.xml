@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map width="16" height="16" name="Cloverfield">
+
+	<!-- drawing of this map is here: http://puu.sh/GTih -->
+	
+	<entity type="Tile" name="Cloverleaf"
+	tlX="0" tlY="0"
+	brX="2" brY="2"
+	z="0"
+	col="true" npcCol="true" mob="false" />
+	
+	<entity type="Tile" name="Cloverleaf"
+	tlX="3" tlY="3"
+	brX="5" brY="9"
+	z="0"
+	col="true" npcCol="true" mob="false" />
+	
+	<entity type="Tile" name="Cloverleaf"
+	tlX="6" tlY="0"
+	brX="12" brY="2"
+	z="0"
+	col="true" npcCol="true" mob="false" />
+	
+	<entity type="Tile" name="Cloverleaf"
+	tlX="7" tlY="4"
+	brX="8" brY="5"
+	z="0"
+	col="true" npcCol="true" mob="false" />
+	
+</map>

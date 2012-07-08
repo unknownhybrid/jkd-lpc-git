@@ -38,20 +38,23 @@ public class Map {
 		
 	public Map(int width, int height) {
 		this.ents = new Entity[width][height][depth];
+		/* apparently java inits it all to null
 		for ( int x=0;x<width;x++ ) {
 			for ( int y=0;y<height;y++ ) {
 				ents[x][y]=null;
 			}
 		}
+		*/
 		this.width = width;
 		this.height = height;
 	}
 
 	public void set(int x,int y,Entity en) {
 		
-		for ( Entity t : ents[x][y] ) {
-			if ( t == null ) {
-				t=en;
+		//for ( Entity t : ents[x][y] ) {
+		for ( int i=0; i < depth; i++ ) {
+			if ( ents[x][y][i] == null ) {
+				ents[x][y][i]=en;
 				return;
 			}
 		}

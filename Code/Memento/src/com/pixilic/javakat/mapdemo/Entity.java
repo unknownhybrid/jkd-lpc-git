@@ -8,6 +8,9 @@ public abstract class Entity implements Comparable<Entity> {
 	
 	protected int width, height, zIndex;
 	protected boolean col, npcCol, mob;
+	protected String name;
+	public boolean isRendered = false;
+	
 	
 	public Entity() {
 		
@@ -42,6 +45,14 @@ public abstract class Entity implements Comparable<Entity> {
 	
 	public int compareTo(Entity o) {
 		return ((Entity) o).getZIndex() - zIndex;
-		
+	}
+
+	public void setName(String n) {
+				name=n;
+				//I love the tab key
+	}
+	
+	public String getName() {
+		return name;
 	}
 }

@@ -35,7 +35,7 @@ public class MapLoader {
 	 * @param boolean is this Entity mobile?
 	 * ("Wall",2,4,2,10,0)
 	 */
-	void addEntity(String type, int tlX, int tlY, int brX, int brY, int z, 
+	void addEntity(String type, String name, int tlX, int tlY, int brX, int brY, int z, 
 			boolean col, boolean npcCol, boolean mob){
 
 		/*
@@ -70,6 +70,8 @@ public class MapLoader {
 			e.printStackTrace();
 		}
 		if ( temp == null ) return;
+		
+		temp.setName(name);
 		
 		temp.setSize( ((brX-tlX)+1) , ((brY-tlY)+1 ) );
 		temp.setZIndex(z);

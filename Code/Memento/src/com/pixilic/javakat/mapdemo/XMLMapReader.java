@@ -18,7 +18,9 @@ import org.xml.sax.SAXException;
 
 public class XMLMapReader {
 	
-	public void readMap(String mapName) {
+	MapLoader ml;
+	
+	public Map readMap(String mapName) {
 	
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
@@ -55,7 +57,7 @@ public class XMLMapReader {
         	
         	int x = new Integer(xDocEl.getAttribute("width"));
         	int y = new Integer(xDocEl.getAttribute("height"));
-        	MapLoader ml = new MapLoader(x, y);
+        	ml = new MapLoader(x, y);
         	        	
         	Node item = null;
         	NamedNodeMap attr = null;
@@ -85,7 +87,8 @@ public class XMLMapReader {
         	//TODO throw an exception
         	System.out.println("too lazy to throw ex but stuff went down");
         }
-		
+
+        return ml.getMap();
 		
 	}
 	

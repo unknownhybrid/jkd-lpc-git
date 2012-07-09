@@ -11,15 +11,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Stack;
+//import java.io.IOException;
+//import java.net.URL;
+//import java.util.Stack;
 
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import com.pixilic.javakat.animationdemo.PathEnum.PathName;
+//import com.pixilic.javakat.animationdemo.PathEnum.PathName;
 
 public class Origin extends Thread implements KeyListener {
     private boolean isRunning = true;
@@ -36,7 +36,7 @@ public class Origin extends Thread implements KeyListener {
     //keyboard
     //boolean[] keys;  
     //int lastDown=0; //the last key pressed because java fucking sucks
-    private Stack<PathName> arrowDown;
+    //private Stack<PathName> arrowDown;
     
     private int width = 600;
     private int height = 480;
@@ -68,15 +68,13 @@ public class Origin extends Thread implements KeyListener {
         frame.add(canvas, 0);
         
         //keyboard shit
-        frame.addKeyListener(this);
-        arrowDown = new Stack<PathName>();
+        //frame.addKeyListener(this);
+        //arrowDown = new Stack<PathName>();
         
         //load the images
         //FIXME: this is a shitty place to load images
-        //HUNTER FIXME: I need this to grab the Map object and feed it to the renderer
         xmlmr = new XMLMapReader();
-		xmlmr.readMap("Cloverfield");
-		mr = new MapRenderer();
+		mr = new MapRenderer(xmlmr.readMap("Cloverfield"));
         // Background & Buffer
         background = create(width, height, false);
         canvas.createBufferStrategy(2);

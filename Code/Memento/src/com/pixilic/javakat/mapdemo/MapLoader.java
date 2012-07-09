@@ -14,12 +14,16 @@ public class MapLoader {
 	/** this map's height */
 	int height;
 	//the map
-	Map theMap;
+	Map theMap = null;
 
 
 	/** creates a new map with given width and height */
 	MapLoader(int width, int height) {
 		theMap = new Map(width,height);
+	}
+	
+	Map getMap() {
+		return theMap;
 	}
 
 	/** 

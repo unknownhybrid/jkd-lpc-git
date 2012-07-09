@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityDictionary>
-	<entity name="Cloverleaf" <!-- image="Cloverleaf.png" --> >
+	<entity name="Cloverleaf">
 		<area id="TOP_LEFT"
 		originX="0" originY="0"
 		width="32" height="32"

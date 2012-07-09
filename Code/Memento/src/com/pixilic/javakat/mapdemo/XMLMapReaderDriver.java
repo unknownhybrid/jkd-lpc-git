@@ -8,7 +8,7 @@ public class XMLMapReaderDriver {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		XMLMapReader xmlmr = new XMLMapReader();
-		xmlmr.readMap("testmap");
+		xmlmr.readMap("Cloverfield");
 	}
 
 }

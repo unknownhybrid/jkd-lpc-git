@@ -11,13 +11,16 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class XMLMapReader {
 	
-	public void readMap(String mapName) {
+	MapLoader ml;
+	
+	public Map readMap(String mapName) {
 	
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
@@ -54,25 +57,28 @@ public class XMLMapReader {
         	
         	int x = new Integer(xDocEl.getAttribute("width"));
         	int y = new Integer(xDocEl.getAttribute("height"));
-        	MapLoader ml = new MapLoader(x, y);
+        	ml = new MapLoader(x, y);
         	        	
         	Node item = null;
+        	NamedNodeMap attr = null;
         	
         	for ( int i=0; i < xEnts.getLength(); i++ ) {
         		
         		item = xEnts.item(i);
+        		attr = item.getAttributes();
         	
         		//System.out.println(xEnts.item(0).getAttributes().getNamedItem("test").getNodeName());
         		ml.addEntity(
-        				item.getAttributes().getNamedItem("type").getNodeValue(), 
-        				new Integer(item.getAttributes().getNamedItem("tlX").getNodeValue()), 
-        				new Integer(item.getAttributes().getNamedItem("tlY").getNodeValue()), 
-						new Integer(item.getAttributes().getNamedItem("brX").getNodeValue()), 
-						new Integer(item.getAttributes().getNamedItem("brY").getNodeValue()), 
-        				new Integer(item.getAttributes().getNamedItem("z").getNodeValue()), 
-        				new Boolean(item.getAttributes().getNamedItem("col").getNodeValue()), 
-        				new Boolean(item.getAttributes().getNamedItem("npcCol").getNodeValue()), 
-        				new Boolean(item.getAttributes().getNamedItem("mob").getNodeValue())
+        				attr.getNamedItem("type").getNodeValue(), 
+        				attr.getNamedItem("name").getNodeValue(),
+        				new Integer(attr.getNamedItem("tlX").getNodeValue()), 
+        				new Integer(attr.getNamedItem("tlY").getNodeValue()), 
+						new Integer(attr.getNamedItem("brX").getNodeValue()), 
+						new Integer(attr.getNamedItem("brY").getNodeValue()), 
+        				new Integer(attr.getNamedItem("z").getNodeValue()), 
+        				new Boolean(attr.getNamedItem("col").getNodeValue()), 
+        				new Boolean(attr.getNamedItem("npcCol").getNodeValue()), 
+        				new Boolean(attr.getNamedItem("mob").getNodeValue())
         				);
         		//well that was a disaster
         	}
@@ -81,7 +87,8 @@ public class XMLMapReader {
         	//TODO throw an exception
         	System.out.println("too lazy to throw ex but stuff went down");
         }
-		
+
+        return ml.getMap();
 		
 	}
 	

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- this file is kinda obsolete, check the Cloverfield map for a demo map -->
 <map width="16" height="16">
 	<entity type="Tile" tlX="0" tlY="0" brX="4" brY="5" z="0" col="true" npcCol="true" mob="false" />
 </map>

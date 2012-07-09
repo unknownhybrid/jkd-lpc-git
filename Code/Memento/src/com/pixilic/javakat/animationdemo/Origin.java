@@ -79,7 +79,7 @@ public class Origin extends Thread implements KeyListener {
         testAni = testSM.createPaths();
         //FIXME: change the path here
         testAni.setPath(PathName.RUN_LEFT);
-        URL url = Origin.class.getResource("rsrc/memento-logo-black-background-watermark.png");
+        URL url = Origin.class.getResource("rsrc/memento-logo-black-background-watermark.PNG");
         watermark = null;
         try {
             watermark = ImageIO.read(url);

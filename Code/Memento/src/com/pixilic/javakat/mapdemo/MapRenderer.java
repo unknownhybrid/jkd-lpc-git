@@ -64,6 +64,8 @@ public class MapRenderer {
 	
 	public void init(){
 		loadXML();
+		imageCache = new HashMap<String,BufferedImage>();
+		areaCache = new HashMap<String,Area>();
 	}
 	
 	
@@ -102,19 +104,24 @@ public class MapRenderer {
         		
         		item = xEnts.item(i);
         		if(item.getAttributes().getNamedItem("name").getNodeValue().equals(entityName)){
-        			String entityFileName = item.getAttributes().getNamedItem("name").getNodeValue() + ".png";
+        			String entityFileName = "rsrc/images/" + item.getAttributes().getNamedItem("name").getNodeValue() + ".png";
+        			URL url = XMLMapReader.class.getResource(entityFileName);
         			BufferedImage entityImage = null;
         			try {
-        				entityImage = ImageIO.read(new File(entityFileName));
-            			imageCache.put(entityFileName, entityImage);
+        				entityImage = ImageIO.read(new File(url.toURI()));
+            			imageCache.put(entityName, entityImage);
         			} catch (IOException e){
+        				e.printStackTrace();
+        			} catch (URISyntaxException e){
         				e.printStackTrace();
         			}
         			NodeList areas = item.getChildNodes();
         			Node area = null;
         			for(int j = 0; j < areas.getLength(); j++){
         				area = areas.item(j);
-        				AreaID id = AreaID.valueOf(area.getAttributes().getNamedItem("id").getNodeValue());
+        				if(area.getAttributes() == null || area.getAttributes().getNamedItem("id").getNodeValue() == null) continue;
+        				String idNodeValue = area.getAttributes().getNamedItem("id").getNodeValue();
+        				AreaID id = AreaID.valueOf(idNodeValue.toUpperCase());
         				int originX = new Integer(area.getAttributes().getNamedItem("originX").getNodeValue());
         				int originY = new Integer(area.getAttributes().getNamedItem("originY").getNodeValue());
         				int width = new Integer(area.getAttributes().getNamedItem("width").getNodeValue());
@@ -143,7 +150,7 @@ public class MapRenderer {
 					Area topleft = areaCache.get(entity.name+AreaID.TOP_LEFT.toString());
 					g.drawImage(src.getSubimage(topleft.originX, topleft.originY, topleft.width, topleft.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
 				} else if(y == 0 && x > 0 && x < entity.width - 1){
-					Area topcenter = areaCache.get(entity.name+AreaID.TOP_CENTER.toString());
+					Area topcenter = areaCache.get(entity.name+(AreaID.TOP_CENTER.toString()));
 					g.drawImage(src.getSubimage(topcenter.originX, topcenter.originY, topcenter.width, topcenter.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
 				} else if (y == 0 && x > 0 && x == entity.width - 1){
 					Area topright = areaCache.get(entity.name+AreaID.TOP_RIGHT.toString());
@@ -175,7 +182,7 @@ public class MapRenderer {
 		for(int y = 0; y < currentMap.height; y++){
 			for(int x = 0; x < currentMap.width; x++){
 				for(int z = 0; z < currentMap.depth; z++){
-					if(currentMap.ents[x][y][z].isRendered) continue;
+					if(currentMap.ents[x][y][z] == null || currentMap.ents[x][y][z].isRendered) continue;
 					g.drawImage(entityRender(currentMap.ents[x][y][z]), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null); //change something so I can just refer to the scaled positions
 					currentMap.ents[x][y][z].isRendered = true;
 				}

@@ -64,6 +64,8 @@ public class MapRenderer {
 	
 	public void init(){
 		loadXML();
+		imageCache = new HashMap<String,BufferedImage>();
+		areaCache = new HashMap<String,Area>();
 	}
 	
 	
@@ -102,7 +104,8 @@ public class MapRenderer {
         		
         		item = xEnts.item(i);
         		if(item.getAttributes().getNamedItem("name").getNodeValue().equals(entityName)){
-        			String entityFileName = item.getAttributes().getNamedItem("name").getNodeValue() + ".png";
+        			System.out.println("loaded "+entityName);
+        			String entityFileName = "rsrc/images/" + item.getAttributes().getNamedItem("name").getNodeValue() + ".png";
         			BufferedImage entityImage = null;
         			try {
         				entityImage = ImageIO.read(new File(entityFileName));

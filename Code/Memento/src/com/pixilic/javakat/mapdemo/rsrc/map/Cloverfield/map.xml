@@ -30,4 +30,9 @@
 	z="0"
 	col="true" npcCol="true" mob="false" />
 	
+	<entity type="Tile" name="GreenRect"
+	tlX="0" tlY="0"
+	brX="1" brY="1"
+	z="1"
+	col="true" npcCol="true" mob="false" />
 </map>

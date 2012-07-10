@@ -3,6 +3,7 @@ package com.pixilic.javakat.mapdemo;
 
 import java.security.InvalidParameterException;
 
+
 public abstract class Entity implements Comparable<Entity> {
 	//comparable is my favorite comparable
 	
@@ -10,7 +11,6 @@ public abstract class Entity implements Comparable<Entity> {
 	protected boolean col, npcCol, mob;
 	protected String name;
 	public boolean isRendered = false;
-	
 	
 	public Entity() {
 		

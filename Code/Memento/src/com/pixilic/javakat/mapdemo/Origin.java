@@ -126,7 +126,7 @@ public class Origin extends Thread implements KeyListener {
         //FIXME hardcoded fps
         int fps = 15;
         long fpsWait = (long) (1.0 / fps * 1000);
-        
+        mr.renderMap(backgroundGraphics);
         main: while (isRunning) {
                 long renderStart = System.nanoTime();
                 updateGame();
@@ -139,7 +139,8 @@ public class Origin extends Thread implements KeyListener {
                         }
                         
                         //this next line blanks the frame
-                    	backgroundGraphics.clearRect(0, 0, width, height);
+                        //it needs to "blank" to whatever the last map-render was
+                    	mr.renderMap(backgroundGraphics);
                     	
                         renderGame(backgroundGraphics); // this calls your draw method
                         // thingy

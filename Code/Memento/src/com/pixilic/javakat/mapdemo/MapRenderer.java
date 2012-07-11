@@ -144,39 +144,59 @@ public class MapRenderer {
 		BufferedImage src = getImage(entity.getName());
 		BufferedImage render = new BufferedImage(entity.width*Map.TILE_WIDTH, entity.height*Map.TILE_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Graphics g = render.getGraphics();
+		
+		Area topleft = areaCache.get(entity.name+AreaID.TOP_LEFT.toString());
+		Area topcenter = areaCache.get(entity.name+AreaID.TOP_CENTER.toString());
+		Area topright = areaCache.get(entity.name+AreaID.TOP_RIGHT.toString());
+		Area left = areaCache.get(entity.name+AreaID.LEFT.toString());
+		Area center = areaCache.get(entity.name+AreaID.CENTER.toString());
+		Area right = areaCache.get(entity.name+AreaID.RIGHT.toString());
+		Area bottomleft = areaCache.get(entity.name+AreaID.BOTTOM_LEFT.toString());
+		Area bottomcenter = areaCache.get(entity.name+AreaID.BOTTOM_CENTER.toString());
+		Area bottomright = areaCache.get(entity.name+AreaID.BOTTOM_RIGHT.toString());
+		
 		for(int y = 0; y < entity.height; y++){
 			for(int x = 0; x < entity.width; x++){
-				if(y == 0 && x == 0){
-					Area topleft = areaCache.get(entity.name+AreaID.TOP_LEFT.toString());
+				if(isTop(y) && isLeft(x)){
 					g.drawImage(src.getSubimage(topleft.originX, topleft.originY, topleft.width, topleft.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
-				} else if(y == 0 && x > 0 && x < entity.width - 1){
-					Area topcenter = areaCache.get(entity.name+(AreaID.TOP_CENTER.toString()));
+				} else if(isTop(y) && isXCenter(x, entity, topleft, topright)){
 					g.drawImage(src.getSubimage(topcenter.originX, topcenter.originY, topcenter.width, topcenter.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
-				} else if (y == 0 && x > 0 && x == entity.width - 1){
-					Area topright = areaCache.get(entity.name+AreaID.TOP_RIGHT.toString());
+				} else if (isTop(y) && isRight(x, entity, topleft, topright)){
 					g.drawImage(src.getSubimage(topright.originX, topright.originY, topright.width, topright.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
-				} else if (y > 0 && y < entity.height - 1 && x == 0){
-					Area left = areaCache.get(entity.name+AreaID.LEFT.toString());
+				} else if (isYCenter(y, entity, topleft, bottomleft) && isLeft(x)){
 					g.drawImage(src.getSubimage(left.originX, left.originY, left.width, left.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
-				} else if (y > 0 && y < entity.height - 1 && x > 0 && x < entity.width - 1){
-					Area center = areaCache.get(entity.name+AreaID.CENTER.toString());
+				} else if (isYCenter(y, entity, topcenter, bottomcenter) && isXCenter(x, entity, left, right)){
 					g.drawImage(src.getSubimage(center.originX, center.originY, center.width, center.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
-				} else if (y > 0 && y < entity.height - 1 && x > 0 && x == entity.width - 1){
-					Area right = areaCache.get(entity.name+AreaID.RIGHT.toString());
+				} else if (isYCenter(y, entity, topright, bottomright) && isRight(x, entity, left, right)){
 					g.drawImage(src.getSubimage(right.originX, right.originY, right.width, right.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
-				} else if (y > 0 && y == entity.height -1 && x == 0){
-					Area bottomleft = areaCache.get(entity.name+AreaID.BOTTOM_LEFT.toString());
+				} else if (isBottom(y, entity, topleft, bottomleft) && isLeft(x)){
 					g.drawImage(src.getSubimage(bottomleft.originX, bottomleft.originY, bottomleft.width, bottomleft.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
-				} else if (y > 0 && y == entity.height -1 && x > 0 && x < entity.width - 1){
-					Area bottomcenter = areaCache.get(entity.name+AreaID.BOTTOM_CENTER.toString());
+				} else if (isBottom(y, entity, topcenter, bottomcenter) && isXCenter(x, entity, bottomleft, bottomright)){
 					g.drawImage(src.getSubimage(bottomcenter.originX, bottomcenter.originY, bottomcenter.width, bottomcenter.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
-				} else if (y > 0 && y == entity.height -1 && x > 0 && x == entity.width - 1){
-					Area bottomright = areaCache.get(entity.name+AreaID.BOTTOM_RIGHT.toString());
+				} else if (isBottom(y, entity, topright, bottomright) && isRight(x, entity, bottomleft, bottomright)){
 					g.drawImage(src.getSubimage(bottomright.originX, bottomright.originY, bottomright.width, bottomright.height), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
 				}
 			}
 		}
 		return render;
+	}
+	public boolean isTop(int currentPos){
+		return currentPos == 0;
+	}
+	public boolean isYCenter(int currentPos, Entity e, Area top, Area bottom){
+		return currentPos > 0 && currentPos < e.height - (bottom.height/32);
+	}
+	public boolean isBottom(int currentPos, Entity e, Area top, Area bottom){
+		return currentPos > 0 && currentPos == e.height - (bottom.height/32);
+	}
+	public boolean isLeft(int currentPos){
+		return currentPos == 0; //YES, I know isTop and isLeft are functionally identical. but this way is way more intuitive to use than having a function named isTopOrLeft
+	}
+	public boolean isXCenter(int currentPos, Entity e, Area left, Area right){
+		return currentPos > 0 && (currentPos < e.width - (right.width/32));
+	}
+	public boolean isRight(int currentPos, Entity e, Area left, Area right){
+		return currentPos > 0 && (currentPos == e.width - (right.width/32));
 	}
 	public void renderMap(Graphics2D g){
 		for(int y = 0; y < currentMap.height; y++){

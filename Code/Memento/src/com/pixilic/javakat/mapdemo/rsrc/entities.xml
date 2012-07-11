@@ -44,5 +44,29 @@
 		<area id="TOP_LEFT"
 		originX="0" originY="0"
 		width="21" height="32" />
+		<area id="TOP_CENTER"
+		originX="0" originY="0"
+		width="1" height="1" />
+		<area id="TOP_RIGHT"
+		originX="0" originY="0"
+		width="1" height="1" />
+		<area id="LEFT"
+		originX="0" originY="0"
+		width="1" height="1" />
+		<area id="CENTER"
+		originX="0" originY="0"
+		width="1" height="1" />
+		<area id="RIGHT"
+		originX="0" originY="0"
+		width="1" height="1" />
+		<area id="BOTTOM_LEFT"
+		originX="0" originY="0"
+		width="1" height="1" />
+		<area id="BOTTOM_CENTER"
+		originX="0" originY="0"
+		width="1" height="1" />
+		<area id="BOTTOM_RIGHT"
+		originX="0" originY="0"
+		width="1" height="1" />
 	</entity>
 </entityDictionary>

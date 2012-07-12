@@ -61,6 +61,7 @@ public class Origin extends Thread implements KeyListener {
 
     // Setup
     public Origin() {
+        // JFrame
         // prepare our window
         frame = new JFrame();
         frame.addWindowListener(new FrameClose());

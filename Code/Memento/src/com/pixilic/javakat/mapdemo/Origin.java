@@ -74,7 +74,7 @@ public class Origin extends Thread implements KeyListener {
         //load the images
         //FIXME: this is a shitty place to load images
         xmlmr = new XMLMapReader();
-		mr = new MapRenderer(xmlmr.readMap("Cloverfield"));
+		mr = new MapRenderer(xmlmr.readMap("realtestmap"));
         // Background & Buffer
         background = create(width, height, false);
         canvas.createBufferStrategy(2);

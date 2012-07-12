@@ -142,7 +142,7 @@ public class MapRenderer {
 	}
 	public BufferedImage entityRender(Entity entity){
 		BufferedImage src = getImage(entity.getName());
-		BufferedImage render = new BufferedImage(entity.width*Map.TILE_WIDTH, entity.height*Map.TILE_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		BufferedImage render = new BufferedImage(entity.width*Map.TILE_WIDTH, entity.height*Map.TILE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = render.getGraphics();
 		
 		Area topleft = areaCache.get(entity.name+AreaID.TOP_LEFT.toString());

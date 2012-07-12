@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map width="64" height="64"name="realtestmap">
-	<entity type="Tile" name="Dirt" tlX="0" tlY="0" brX="63" brY="63" z="0" col="true" npcCol="true" mob="false">
+<map width="64" height="64" name="realtestmap">
+	<!--  lol what the fuck -->
+	<entity type="Tile" name="Dirt" tlX="0" tlY="0" brX="16" brY="16" z="0" col="true" npcCol="true" mob="false"/>
 	
 </map>

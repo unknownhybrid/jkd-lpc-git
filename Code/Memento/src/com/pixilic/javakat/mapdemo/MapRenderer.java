@@ -2,6 +2,7 @@ package com.pixilic.javakat.mapdemo;
 //render stuff
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 //XML stuff
@@ -29,9 +30,11 @@ public class MapRenderer {
 	DocumentBuilderFactory dbf;
 	DocumentBuilder db;
 	Document doc;
+	Image i;
 			
 	public MapRenderer(Map m){
 		currentMap = m;
+		i = new BufferedImage(m.width*Map.TILE_WIDTH, m.height*Map.TILE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		init(); //initializes tilemap and XML
 	}
 	
@@ -198,6 +201,9 @@ public class MapRenderer {
 	public boolean isRight(int currentPos, Entity e, Area left, Area right){
 		return currentPos > 0 && (currentPos == e.width - (right.width/32));
 	}
+	
+	/*
+	 * shitty ass shit ass
 	public void renderMap(Graphics2D g){
 		for(int y = 0; y < currentMap.height; y++){
 			for(int x = 0; x < currentMap.width; x++){
@@ -208,6 +214,32 @@ public class MapRenderer {
 				}
 			}
 		}
-		
+	}
+	*/
+	
+	public Image renderMap() {
+		Graphics2D g = (Graphics2D) i.getGraphics();
+		for(int y = 0; y < currentMap.height; y++){
+			for(int x = 0; x < currentMap.width; x++){
+				for(int z = 0; z < currentMap.depth; z++){
+					if(currentMap.ents[x][y][z] == null || currentMap.ents[x][y][z].isRendered) continue;
+					g.drawImage(entityRender(currentMap.ents[x][y][z]), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null); //change something so I can just refer to the scaled positions
+					currentMap.ents[x][y][z].isRendered = true;
+				}
+			}
+		}
+		return(i);
+	}
+	
+	//TODO is this actually necessary right now?
+	public void forceRender() {
+		for(int y = 0; y < currentMap.height; y++){
+			for(int x = 0; x < currentMap.width; x++){
+				for(int z = 0; z < currentMap.depth; z++){
+					if(currentMap.ents[x][y][z] == null ) continue;
+					currentMap.ents[x][y][z].isRendered = false;
+				}
+			}
+		}
 	}
 }

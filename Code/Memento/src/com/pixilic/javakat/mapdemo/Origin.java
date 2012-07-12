@@ -1,10 +1,14 @@
 package com.pixilic.javakat.mapdemo;
 import java.awt.Canvas;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.Transparency;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -52,20 +56,73 @@ public class Origin extends Thread implements KeyListener {
         return config.createCompatibleImage(width, height, alpha
                         ? Transparency.TRANSLUCENT : Transparency.OPAQUE);
     }
+    
+    
 
     // Setup
     public Origin() {
-        // JFrame
+        // prepare our window
         frame = new JFrame();
         frame.addWindowListener(new FrameClose());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(width * scale, height * scale);
-        frame.setVisible(true);
-
+        
+        /*
+        //that was just a default size. now we need to add a layout
+        //this wil make resizing work
+        Container container = frame.getContentPane();
+        container.setLayout(new BorderLayout());
+        */
+        
         // Canvas
         canvas = new Canvas(config);
         canvas.setSize(width * scale, height * scale);
+        
+        //listen for resize events on the frame
+        frame.addComponentListener(new ComponentListener() 
+        {  
+                public void componentResized(ComponentEvent evt) {
+                	//FIXME THIS SECTION MIGHT BREAK SCALING
+                    Component f = (Component)evt.getSource();
+                    Dimension d = f.getSize();
+                    canvas.setSize(d);
+                    
+                    //FIXME this fucking blows all over the place
+                    background = create(d.width, d.height, false);
+                    if ( mr != null ) mr.forceRender(); //fuck
+                    
+                    //so the renderer doesn't render onto a gfx we don't see
+                    backgroundGraphics = (Graphics2D) background.getGraphics();
+                    
+                    System.out.println(d);
+                }
+
+				@Override
+				public void componentHidden(ComponentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void componentMoved(ComponentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void componentShown(ComponentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+        });
+
+        
+        //-- instead of adding to the frame, add to the layout
         frame.add(canvas, 0);
+        //container.add (canvas, BorderLayout.CENTER);
+        
+        //show the sucker 
+        frame.setVisible(true);
         
         //keyboard shit
         //frame.addKeyListener(this);
@@ -126,7 +183,14 @@ public class Origin extends Thread implements KeyListener {
         //FIXME hardcoded fps
         int fps = 15;
         long fpsWait = (long) (1.0 / fps * 1000);
-        mr.renderMap(backgroundGraphics);
+     
+        //stopit
+        //no
+        //why
+        //stop doing this
+        //what
+        //quit it
+        //mr.renderMap(backgroundGraphics);
         main: while (isRunning) {
                 long renderStart = System.nanoTime();
                 updateGame();
@@ -140,13 +204,14 @@ public class Origin extends Thread implements KeyListener {
                         
                         //this next line blanks the frame
                         //it needs to "blank" to whatever the last map-render was
-                    	mr.renderMap(backgroundGraphics);
+                    	backgroundGraphics.drawImage(mr.renderMap(), 0, 0, null);
+                    	//backgroundGraphics.drawImage(mr.renderMap(), 0, 0, null);
                     	
                         renderGame(backgroundGraphics); // this calls your draw method
                         // thingy
                         if (scale != 1) {
-                                bg.drawImage(background, 0, 0, width * scale, height
-                                                * scale, 0, 0, width, height, null);
+                                bg.drawImage(background, 0, 0, background.getWidth() * scale,
+                                		background.getHeight() * scale, 0, 0, background.getWidth(), background.getHeight(), null);
                         } else {
                                 bg.drawImage(background, 0, 0, null);
                         }
@@ -173,7 +238,9 @@ public class Origin extends Thread implements KeyListener {
     
     public void renderGame(Graphics2D g) {
     	//g.drawImage(testSM, 0, 0, canvas);
-    	mr.renderMap(g);
+
+    	//what the fuck is this doing here?
+    	//mr.renderMap(g);
     }
 
     

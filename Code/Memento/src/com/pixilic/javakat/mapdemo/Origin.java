@@ -61,6 +61,7 @@ public class Origin extends Thread implements KeyListener {
 
     // Setup
     public Origin() {
+        // JFrame
         // prepare our window
         frame = new JFrame();
         frame.addWindowListener(new FrameClose());
@@ -89,10 +90,11 @@ public class Origin extends Thread implements KeyListener {
                     
                     //FIXME this fucking blows all over the place
                     background = create(d.width, d.height, false);
-                    if ( mr != null ) mr.forceRender(); //fuck
-                    
+                                        
                     //so the renderer doesn't render onto a gfx we don't see
                     backgroundGraphics = (Graphics2D) background.getGraphics();
+                    
+                    if ( mr != null ) mr.forceRender(); //fuck
                     
                     System.out.println(d);
                 }

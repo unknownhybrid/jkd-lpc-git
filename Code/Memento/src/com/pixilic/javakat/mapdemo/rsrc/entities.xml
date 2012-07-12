@@ -127,7 +127,7 @@
 		originX="64" originY="128"
 		width="32" height="32" />
 	</entity>
-	<entity name="trunk">
+	<entity name="Trunk">
 		<area id="TOP_LEFT"
 		originX="0" originY="0"
 		width="32" height="32"
@@ -140,30 +140,31 @@
 		originX="64" originY="0"
 		width="32" height="32"
 		/>
+		
 		<area id="LEFT"
-		originX="0" originY="32"
+		originX="0" originY="0"
 		width="32" height="32"
 		/>
 		<area id="CENTER"
-		originX="32" originY="32"
+		originX="32" originY="0"
 		width="32" height="32"
 		/>
 		<area id="RIGHT"
-		originX="64" originY="32"
+		originX="64" originY="0"
 		width="32" height="32"
 		/>
 		
 		<area id="BOTTOM_LEFT"
-		originX="0" originY="64"
-		width="32" height="32"
+		originX="0" originY="32"
+		width="32" height="64"
 		/>
 		<area id="BOTTOM_CENTER"
-		originX="32" originY="64"
-		width="32" height="32"
+		originX="32" originY="32"
+		width="32" height="64"
 		/>
 		<area id="BOTTOM_RIGHT"
-		originX="64" originY="64"
-		width="32" height="32"
+		originX="64" originY="32"
+		width="32" height="64"
 		/>
 	</entity>
 </entityDictionary>

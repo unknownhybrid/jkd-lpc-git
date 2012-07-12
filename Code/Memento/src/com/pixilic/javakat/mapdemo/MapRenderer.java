@@ -184,9 +184,11 @@ public class MapRenderer {
 		return currentPos == 0;
 	}
 	public boolean isYCenter(int currentPos, Entity e, Area top, Area bottom){
+		if(e.name.equals("trunk")) System.out.println("isYCenter");
 		return currentPos > 0 && currentPos < e.height - (bottom.height/32);
 	}
 	public boolean isBottom(int currentPos, Entity e, Area top, Area bottom){
+		if(e.name.equals("trunk")) System.out.println("isYCenter");
 		return currentPos > 0 && currentPos == e.height - (bottom.height/32);
 	}
 	public boolean isLeft(int currentPos){

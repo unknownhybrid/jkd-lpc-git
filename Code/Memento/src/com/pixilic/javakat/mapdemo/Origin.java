@@ -15,6 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.Stack;
 //import java.io.IOException;
 //import java.net.URL;
 //import java.util.Stack;
@@ -22,6 +23,8 @@ import java.awt.image.BufferedImage;
 //import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
+import com.pixilic.javakat.animationdemo.PathEnum.PathName;
 
 //import com.pixilic.javakat.animationdemo.PathEnum.PathName;
 
@@ -37,6 +40,10 @@ public class Origin extends Thread implements KeyListener {
     //FIXME hardcoding
     private XMLMapReader xmlmr;
     private MapRenderer mr;
+    private Map map;
+    private Character player;
+    private Stack<PathName> arrowDown;
+    private int moveTimer = 0;
     //keyboard
     //boolean[] keys;  
     //int lastDown=0; //the last key pressed because java fucking sucks
@@ -127,13 +134,15 @@ public class Origin extends Thread implements KeyListener {
         frame.setVisible(true);
         
         //keyboard shit
-        //frame.addKeyListener(this);
-        //arrowDown = new Stack<PathName>();
+        frame.addKeyListener(this);
+        arrowDown = new Stack<PathName>();
         
         //load the images
         //FIXME: this is a shitty place to load images
         xmlmr = new XMLMapReader();
-		mr = new MapRenderer(xmlmr.readMap("realtestmap"));
+        map = xmlmr.readMap("realtestmap");
+		mr = new MapRenderer(map);
+		player = new Character(true); //the true means he's the player character!
         // Background & Buffer
         background = create(width, height, false);
         canvas.createBufferStrategy(2);
@@ -235,7 +244,15 @@ public class Origin extends Thread implements KeyListener {
     }
 
     public void updateGame() {
-    	
+    	if(player.isMoving() && moveTimer <= 0) {
+    		map.move();
+    		moveTimer = 10;
+    	}
+    	moveTimer--;
+    	if(!arrowDown.empty()){
+    		player.getAnimation().setPath(arrowDown.peek());
+    		player.getAnimation().setActive(true);
+    	} else player.getAnimation().setActive(false);
 	}
     
     public void renderGame(Graphics2D g) {
@@ -250,12 +267,13 @@ public class Origin extends Thread implements KeyListener {
     public void keyTyped(KeyEvent e) {    }
      
     public void keyPressed(KeyEvent e) {
-    	//PathName pathname = getPathNameFromKey(e);
-    	//if(pathname != null){
-    		//if(!arrowDown.contains(pathname)){
-    			//arrowDown.push(pathname);
-    		//}
-    	//}
+    	PathName pathname = getPathNameFromKey(e);
+    	if(pathname != null){
+    		if(!arrowDown.contains(pathname)){
+    			arrowDown.push(pathname);
+    		}
+    	}
+    	player.setMotion(true, e.getKeyCode() == KeyEvent.VK_SPACE);
     	//int kc = e.getKeyCode();
     	//keys[kc] = true;
     	//lastDown=kc;
@@ -268,25 +286,26 @@ public class Origin extends Thread implements KeyListener {
     }
 
     public void keyReleased(KeyEvent e) { 
-    	//PathName pathname = getPathNameFromKey(e);
-    	//if(arrowDown.contains(pathname)){
-    		//arrowDown.remove(pathname);
-    	//}
+    	PathName pathname = getPathNameFromKey(e);
+    	if(arrowDown.contains(pathname)){
+    		arrowDown.remove(pathname);
+    	}
+    	player.setMotion(false, false);
     } 
-    /*private PathName getPathNameFromKey(KeyEvent e){
+    private PathName getPathNameFromKey(KeyEvent e){
     	switch(e.getKeyCode()){
 		case KeyEvent.VK_UP:
-			return PathEnum.PathName.RUN_UP;
+			return PathName.RUN_UP;
 		case KeyEvent.VK_RIGHT:
-			return PathEnum.PathName.RUN_RIGHT;
+			return PathName.RUN_RIGHT;
 		case KeyEvent.VK_DOWN:
-			return PathEnum.PathName.RUN_DOWN;
+			return PathName.RUN_DOWN;
 		case KeyEvent.VK_LEFT:
-			return PathEnum.PathName.RUN_LEFT;
+			return PathName.RUN_LEFT;
 		default:
 			return null;
 		}
-    }*/
+    }
     public static void main(final String args[]) {
         new Origin();
     }

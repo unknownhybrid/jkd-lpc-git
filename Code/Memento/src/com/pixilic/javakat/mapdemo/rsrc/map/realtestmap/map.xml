@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map width="64" height="64" name="realtestmap">
 	<!--  lol what the fuck -->
-	<entity type="Tile" name="Dirt" tlX="0" tlY="0" brX="16" brY="16" z="0" col="true" npcCol="true" mob="false"/>
-	<entity type="Tile" name="Grass" tlX="0" tlY="0" brX="10" brY="4" z="1" col="true" npcCol="true" mob="false" />
-	<entity type="Tile" name="Trunk" tlX="4" tlY="2" brX="6" brY="6" z="2" col="true" npcCol="true" mob="false" />
+	<entity type="Tile" name="Dirt" tlX="0" tlY="1" brX="16" brY="16" z="0" col="false" npcCol="false" mob="false"/>
+	<entity type="Tile" name="Grass" tlX="0" tlY="2" brX="10" brY="4" z="1" col="false" npcCol="false" mob="false" />
+	<entity type="Tile" name="Trunk" tlX="4" tlY="4" brX="6" brY="6" z="2" col="false" npcCol="false" mob="false" />
 	
 	
-	<entity type="Character" name="PaintbrushWoman" tlX="0" tlY="0" brX="0" brY="0" z="3" col="true" npcCol="true" mob="true" />
+	<entity type="Player" name="PaintbrushWoman" tlX="0" tlY="0" brX="0" brY="0" z="3" col="true" npcCol="true" mob="true" />
 </map>

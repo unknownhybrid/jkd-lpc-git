@@ -225,11 +225,11 @@ public class MapRenderer {
 			for(int x = 0; x < currentMap.width; x++){
 				for(int z = 0; z < currentMap.depth; z++){
 					if(currentMap.ents[x][y][z] == null || currentMap.ents[x][y][z].isRendered) continue; //we already got a character render thing!
-					if(currentMap.ents[x][y][z].getClass() == Character.class){
+					if(currentMap.ents[x][y][z] instanceof Character){
 						Character currentChar = (Character)currentMap.ents[x][y][z];
 						g.drawImage(currentChar.getAnimation().getCurrentPath().getCurrentFrame(), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null);
 						currentChar.getAnimation().getCurrentPath().next();
-					} else if (currentMap.ents[x][y][z].getClass() == Tile.class){
+					} else if (currentMap.ents[x][y][z] instanceof Tile){
 						g.drawImage(entityRender(currentMap.ents[x][y][z]), x*Map.TILE_WIDTH, y*Map.TILE_HEIGHT, null); //change something so I can just refer to the scaled positions
 					}
 					currentMap.ents[x][y][z].isRendered = true;

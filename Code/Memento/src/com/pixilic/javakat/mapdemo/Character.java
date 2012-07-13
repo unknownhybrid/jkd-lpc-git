@@ -5,24 +5,16 @@ import com.pixilic.javakat.animationdemo.SpriteMap;
 
 public class Character extends Entity {
 	
-	boolean isMoving;
-	boolean isRunning;
-	boolean isPlayer;
+	private boolean isMoving, isRunning, isPlayer;
 	private Direction facing;
     private SpriteMap spriteMap;
     private Animation anim;
 	
 	public Character(){
-		facing = Direction.LEFT;
-		isMoving = false;
-		isRunning = false;
-		isPlayer = false;
-		//FIXME: HARDCODING THE IMAGE IS BAAAAAAAD
-        spriteMap = new SpriteMap("female_walkcycle",64,64);
-        anim = spriteMap.createPaths();
+		this(false);
 	}
 	public Character(boolean isPlayer){
-		facing = Direction.LEFT;
+		facing = Direction.DOWN;
 		isMoving = false;
 		isRunning = false;
 		this.isPlayer = isPlayer;
@@ -36,10 +28,15 @@ public class Character extends Entity {
 	public Direction getFacing(){
 		return facing;
 	}
+	
 	public void setMotion(boolean isMoving, boolean isRunning){
 		this.isMoving = isMoving;
 		this.isRunning = isRunning;
 	}
+	public void setMotion(boolean isMoving) {
+		this.setMotion(isMoving,false);
+	}
+	
 	public boolean isMoving(){
 		return isMoving;
 	}

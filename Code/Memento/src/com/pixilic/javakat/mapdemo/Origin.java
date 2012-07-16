@@ -271,9 +271,9 @@ public class Origin extends Thread implements KeyListener {
     	if(pathname != null){
     		if(!arrowDown.contains(pathname)){
     			arrowDown.push(pathname);
+    	    	player.setMotion(true, e.getKeyCode() == KeyEvent.VK_SPACE);
     		}
     	}
-    	player.setMotion(true, e.getKeyCode() == KeyEvent.VK_SPACE);
     	//int kc = e.getKeyCode();
     	//keys[kc] = true;
     	//lastDown=kc;

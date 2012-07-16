@@ -118,4 +118,19 @@ public class Map {
 			return true;
 		}
 	}
+	public Character getPlayer(){
+		for(int y = 0; y < height; y++){
+			for(int x = 0; x < width; x++){
+				for(int z = 0; z < depth; z++){
+					if(ents[x][y][z].getClass() == Character.class){
+						Character currentChar = (Character)ents[x][y][z];
+						if(currentChar.isPlayer()){
+							return currentChar;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
 }

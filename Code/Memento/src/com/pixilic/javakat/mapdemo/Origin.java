@@ -142,8 +142,11 @@ public class Origin extends Thread implements KeyListener {
         xmlmr = new XMLMapReader();
         map = xmlmr.readMap("realtestmap");
 		mr = new MapRenderer(map);
-		player = new Character(true); //the true means he's the player character!
-        // Background & Buffer
+		
+		//player = new Character(true); //the true means he's the player character!
+		player = map.getPlayerCharacter();
+        
+		// Background & Buffer
         background = create(width, height, false);
         canvas.createBufferStrategy(2);
         do {
@@ -244,15 +247,25 @@ public class Origin extends Thread implements KeyListener {
     }
 
     public void updateGame() {
-    	if(player.isMoving() && moveTimer <= 0) {
+    	if(moveTimer <= 0) {
+    		System.out.print("!");
     		map.move();
     		moveTimer = 10;
+    	} else {
+    		System.out.print(".");
     	}
     	moveTimer--;
     	if(!arrowDown.empty()){
-    		player.getAnimation().setPath(arrowDown.peek());
+    		PathName p = arrowDown.pop();
+    		player.getAnimation().setPath(p);
+    		player.setFacing(getDirectionFromPathName(p));
     		player.getAnimation().setActive(true);
-    	} else player.getAnimation().setActive(false);
+    		player.setMotion(true);//FIXME player never runs
+ 
+    	} else {
+    		player.getAnimation().setActive(false);
+    		player.setMotion(false);
+    	}
 	}
     
     public void renderGame(Graphics2D g) {
@@ -271,9 +284,9 @@ public class Origin extends Thread implements KeyListener {
     	if(pathname != null){
     		if(!arrowDown.contains(pathname)){
     			arrowDown.push(pathname);
-    	    	player.setMotion(true, e.getKeyCode() == KeyEvent.VK_SPACE);
     		}
     	}
+    	//player.setMotion(true, e.getKeyCode() == KeyEvent.VK_SPACE);
     	//int kc = e.getKeyCode();
     	//keys[kc] = true;
     	//lastDown=kc;
@@ -287,10 +300,15 @@ public class Origin extends Thread implements KeyListener {
 
     public void keyReleased(KeyEvent e) { 
     	PathName pathname = getPathNameFromKey(e);
+    	/*
     	if(arrowDown.contains(pathname)){
     		arrowDown.remove(pathname);
     	}
-    	player.setMotion(false, false);
+    	*/
+    	while ( arrowDown.contains(pathname)) {
+    		arrowDown.remove(pathname);
+    	}
+    	//player.setMotion(false, false);
     } 
     private PathName getPathNameFromKey(KeyEvent e){
     	switch(e.getKeyCode()){
@@ -304,6 +322,20 @@ public class Origin extends Thread implements KeyListener {
 			return PathName.RUN_LEFT;
 		default:
 			return null;
+		}
+    }
+    private Direction getDirectionFromPathName(PathName p) {
+    	switch(p){
+			case RUN_UP:
+				return Direction.UP;
+			case RUN_RIGHT:
+				return Direction.RIGHT;
+			case RUN_DOWN:
+				return Direction.DOWN;
+			case RUN_LEFT:
+				return Direction.LEFT;
+			default:
+				return null;
 		}
     }
     public static void main(final String args[]) {

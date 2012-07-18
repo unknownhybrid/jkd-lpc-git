@@ -250,18 +250,21 @@ public class Origin extends Thread implements KeyListener {
     	if(moveTimer <= 0) {
     		System.out.print("!");
     		map.move();
-    		moveTimer = 10;
+    		moveTimer = 1;
     	} else {
     		System.out.print(".");
     	}
     	moveTimer--;
     	if(!arrowDown.empty()){
     		PathName p = arrowDown.pop();
-    		player.getAnimation().setPath(p);
-    		player.setFacing(getDirectionFromPathName(p));
+    		if(p.equals(player.getAnimation().getCurrentPath().getPathName())){
+    			player.getAnimation().next();
+    		} else {
+	    		player.getAnimation().setPath(p);
+	    		player.setFacing(getDirectionFromPathName(p));
+    		}
     		player.getAnimation().setActive(true);
     		player.setMotion(true);//FIXME player never runs
- 
     	} else {
     		player.getAnimation().setActive(false);
     		player.setMotion(false);

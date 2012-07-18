@@ -84,6 +84,10 @@ public class Map {
 			System.out.println("Can't go that way");
 		} else {
 			currentChar.isRendered = false;
+			Entity[] tileStack = entityMap[x][y];
+			for(Entity e : tileStack){
+				e.isRendered = false;
+			}
 			switch(currentChar.getFacing()){
 				case UP:
 					entityMap[x][y-1][z] = currentChar;

@@ -22,7 +22,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class MapRenderer {
+public class MapRenderer extends com.pixilic.javakat.framework.RenderData{
 
 	Map currentMap;
 	HashMap<String,BufferedImage> imageCache;
@@ -219,7 +219,7 @@ public class MapRenderer {
 	}
 	*/
 	
-	public Image renderMap() {
+	public Image render() {
 		Graphics2D g = (Graphics2D) i.getGraphics();
 		for(int y = 0; y < currentMap.height; y++){
 			for(int x = 0; x < currentMap.width; x++){

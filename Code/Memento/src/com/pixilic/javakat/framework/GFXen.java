@@ -20,6 +20,8 @@ public class GFXen {
 	
 	private boolean isRunning;
 	
+	private RenderData renderdata;
+	
     private BufferStrategy strategy;
     private BufferedImage background;
     private Graphics2D backgroundGraphics;
@@ -39,10 +41,12 @@ public class GFXen {
                         ? Transparency.TRANSLUCENT : Transparency.OPAQUE);
     }
     
-    public GFXen(int width, int height){
-        
+    public GFXen(){
+        isRunning = true;
         // Canvas
         canvas = new Canvas(config);
+    }
+    public void setup(int width, int height){
         canvas.setSize(width * scale, height * scale);
      // Background & Buffer
         background = create(width, height, false);
@@ -58,16 +62,18 @@ public class GFXen {
         do {
                 Graphics2D bg = getBuffer();
                 if (!isRunning) {
-                        break;
+                    break;
                 }
                 
                 //this next line blanks the frame
                 //it needs to "blank" to whatever the last map-render was
-            	//backgroundGraphics.drawImage(mr.renderMap(), 0, 0, null);
-            	//backgroundGraphics.drawImage(mr.renderMap(), 0, 0, null);
+            	backgroundGraphics.drawImage(renderdata.render(), 0, 0, null);
+            	backgroundGraphics.drawImage(renderdata.render(), 0, 0, null);
             	
                 renderGame(backgroundGraphics); // this calls your draw method
                 // thingy
+                
+                //FIXME: why not just always do this first thing; even if scale = 1 that doesn't cause problems
                 if (scale != 1) {
                         bg.drawImage(background, 0, 0, background.getWidth() * scale,
                         		background.getHeight() * scale, 0, 0, background.getWidth(), background.getHeight(), null);
@@ -88,6 +94,9 @@ public class GFXen {
     private void renderGame(Graphics2D g){
     	
     }
+    protected void setRenderData(RenderData renderdata){
+    	this.renderdata = renderdata;
+    }
     // Screen and buffer stuff
     private Graphics2D getBuffer() {
         if (graphics == null) {
@@ -100,8 +109,10 @@ public class GFXen {
         return graphics;
     }
     private boolean updateScreen() {
-        graphics.dispose();
-        graphics = null;
+    	if(graphics != null){
+    		graphics.dispose();
+        	graphics = null;
+    	}
         try {
                 strategy.show();
                 Toolkit.getDefaultToolkit().sync();
@@ -137,7 +148,7 @@ public class GFXen {
             backgroundGraphics = (Graphics2D) background.getGraphics();
             
             //if ( mr != null ) mr.forceRender(); //fuck
-            update();
+            if(renderdata != null) renderdata.forceRender();
             System.out.println(d);
         }
 

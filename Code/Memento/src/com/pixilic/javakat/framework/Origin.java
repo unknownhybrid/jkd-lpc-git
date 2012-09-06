@@ -15,22 +15,24 @@ public class Origin extends Thread{
 	private int width = 600;
 	private int height = 480;
     
-    private GMan gman; //game manager
+    public GMan gman; //game manager
 	
 	public Origin() {
 		isRunning = true;
 		JFrame frame = new JFrame();	
 		
 		io = new IOen();
-		gfx = new GFXen(frame.WIDTH, frame.HEIGHT);
+		gfx = new GFXen();
+		
+		gman = new com.pixilic.javakat.mapdemo.Mapman();
 		
 		frameSetup();
 		start();
 	}
 	public void run(){
 		do {
-			InputEvent evt = pollInput();
-			updateLogic(evt);
+			updateLogic();
+			updateGraphicsData();
 			updateGraphics();
 			if(gman.switching()){
 				
@@ -51,17 +53,23 @@ public class Origin extends Thread{
         //show the sucker 
         frame.setVisible(true);
         
+        //do the canvas up real nice-like
+		gfx.setup(width, height);
+        
         //keyboard shit
         frame.addKeyListener(io);
 	}
 	public void updateGraphics(){
 		gfx.update();
 	}
+	public void updateGraphicsData(){
+		gfx.setRenderData(gman.getRenderData());
+	}
 	public InputEvent pollInput(){
 		return io.update();
 	}
-	public void updateLogic(InputEvent evt){
-		gman.update(evt);
+	public void updateLogic(){
+		gman.update(pollInput());
 	}
 	public void disposeGraphics(){
 		frame.dispose(); //I would really like this to happen in the GFXen but if it can't, oh well

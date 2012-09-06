@@ -6,6 +6,7 @@ import java.util.Stack;
 import com.pixilic.javakat.animationdemo.PathEnum.PathName;
 import com.pixilic.javakat.framework.GMan;
 import com.pixilic.javakat.framework.IOen;
+import com.pixilic.javakat.framework.RenderData;
 
 public class Mapman extends GMan{
 
@@ -40,7 +41,7 @@ public class Mapman extends GMan{
 		if(moveTimer <= 0) {
     		System.out.print("!");
     		map.move();
-    		moveTimer = 1;
+    		moveTimer = 3;
     	} else {
     		System.out.print(".");
     	}
@@ -88,4 +89,12 @@ public class Mapman extends GMan{
 				return null;
 		}
     }
+
+	@Override
+	public RenderData getRenderData() {
+		return mr;
+	}
+	public void setRenderData(MapRenderer mr) {
+		this.mr = mr;
+	}
 }

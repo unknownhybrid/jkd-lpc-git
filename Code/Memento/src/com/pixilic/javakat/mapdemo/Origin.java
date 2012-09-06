@@ -77,7 +77,7 @@ public class Origin extends Thread implements KeyListener {
         
         /*
         //that was just a default size. now we need to add a layout
-        //this wil make resizing work
+        //this will make resizing work
         Container container = frame.getContentPane();
         container.setLayout(new BorderLayout());
         */
@@ -206,6 +206,7 @@ public class Origin extends Thread implements KeyListener {
         //quit it
         //mr.renderMap(backgroundGraphics);
         main: while (isRunning) {
+        	
                 long renderStart = System.nanoTime();
                 updateGame();
 
@@ -218,7 +219,7 @@ public class Origin extends Thread implements KeyListener {
                         
                         //this next line blanks the frame
                         //it needs to "blank" to whatever the last map-render was
-                    	backgroundGraphics.drawImage(mr.renderMap(), 0, 0, null);
+                    	backgroundGraphics.drawImage(mr.render(), 0, 0, null);
                     	//backgroundGraphics.drawImage(mr.renderMap(), 0, 0, null);
                     	
                         renderGame(backgroundGraphics); // this calls your draw method

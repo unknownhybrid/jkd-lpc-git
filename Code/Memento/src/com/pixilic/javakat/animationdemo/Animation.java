@@ -10,7 +10,6 @@ public class Animation {
 	private boolean active = true;
 	public Animation () {
 		paths = new HashMap<PathName, AnimationPath>();
-		//currentPath = new AnimationPath(); // why would you do this
 	}
 	public boolean setPath(PathName pathname){
 		currentPath = paths.get(pathname);

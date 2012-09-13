@@ -15,12 +15,9 @@ public class Mapman extends GMan{
     private MapRenderer mr;
     private Map map;
     private Character player;
-    private Stack<PathName> arrowDown;
     private int moveTimer = 0;
 	
-    public Mapman(){
-    	arrowDown = new Stack<PathName>();
-        
+    public Mapman(){        
         //load the images
         //FIXME: this is a shitty place to load images
         xmlmr = new XMLMapReader();
@@ -39,29 +36,38 @@ public class Mapman extends GMan{
 	@Override
 	public void update(InputEvent evt) {
 		if(moveTimer <= 0) {
-    		System.out.print("!");
     		map.move();
     		moveTimer = 3;
     	} else {
-    		System.out.print(".");
+    		
     	}
     	moveTimer--;
     	if(evt != null){
-    		PathName p = getPathNameFromKey(evt instanceof KeyEvent ? (KeyEvent)evt : null);
-    		if(p.equals(player.getAnimation().getCurrentPath().getPathName())){
+    		PathName p = getPathNameFromKey(evt instanceof KeyEvent && isLegalKey(evt) ? (KeyEvent)evt : null);
+    		if(p != null && p.equals(player.getAnimation().getCurrentPath().getPathName())){
     			player.getAnimation().next();
-    		} else {
+    		} else if (p != null){
 	    		player.getAnimation().setPath(p);
 	    		player.setFacing(getDirectionFromPathName(p));
     		}
     		player.getAnimation().setActive(true);
     		player.setMotion(true);//FIXME player never runs
     	} else {
+    		player.getAnimation().setPath(player.getAnimation().getCurrentPath().getPathName());
+    		player.setFacing(getDirectionFromPathName(player.getAnimation().getCurrentPath().getPathName()));
     		player.getAnimation().setActive(false);
     		player.setMotion(false);
     	}
 	}
+	private boolean isLegalKey(InputEvent evt) {
+		KeyEvent e = evt instanceof KeyEvent ? (KeyEvent) evt : null;
+		if(e == null) return false;
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_LEFT) return true;
+		else return false;
+	}
+
 	private PathName getPathNameFromKey(KeyEvent e){
+		if(e == null) return null;
     	switch(e.getKeyCode()){
 		case KeyEvent.VK_UP:
 			return PathName.RUN_UP;

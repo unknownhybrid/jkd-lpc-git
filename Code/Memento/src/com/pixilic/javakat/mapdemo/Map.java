@@ -50,7 +50,7 @@ public class Map {
 		this.width = width;
 		this.height = height;
 	}
-
+	//set sticks an entity in the deepest empty slot of the tower of entities at map position (x,y)
 	public void set(int x,int y,Entity en) {
 		
 		//for ( Entity t : ents[x][y] ) {
@@ -84,25 +84,26 @@ public class Map {
 			System.out.println("Can't go that way");
 		} else {
 			currentChar.isRendered = false;
-			Entity[] tileStack = entityMap[x][y];
-			for(Entity e : tileStack){
-				e.isRendered = false;
-			}
+			renderStep(entityMap[x][y]);
 			switch(currentChar.getFacing()){
 				case UP:
 					entityMap[x][y-1][z] = currentChar;
+					renderStep(entityMap[x][y-1]);
 					entityMap[x][y][z] = null;
 					break;
 				case RIGHT:
 					entityMap[x+1][y][z] = currentChar;
+					renderStep(entityMap[x+1][y]);
 					entityMap[x][y][z] = null;
 					break;
 				case DOWN:
 					entityMap[x][y+1][z] = currentChar;
+					renderStep(entityMap[x][y+1]);
 					entityMap[x][y][z] = null;
 					break;
 				case LEFT:
 					entityMap[x-1][y][z] = currentChar;
+					renderStep(entityMap[x-1][y]);
 					entityMap[x][y][z] = null;
 					break;
 				default:
@@ -110,7 +111,11 @@ public class Map {
 			}
 		}
 		currentChar.setMotion(false);
-			
+	}
+	private void renderStep(Entity[] tileStack) {
+		for(Entity e : tileStack){
+			if(e != null) e.isRendered = false;
+		}
 	}
 	public boolean collision(Character currentChar, Entity[][][] entityMap, int x, int y, int z){
 		int targetX=x, targetY=y, targetZ=z;
@@ -143,7 +148,6 @@ public class Map {
 	}
 
 	public Player getPlayerCharacter() {
-		// TODO Auto-generated method stub
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
 				for(int z = 0; z < depth; z++){
@@ -160,7 +164,7 @@ public class Map {
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
 				for(int z = 0; z < depth; z++){
-					if(ents[x][y][z].getClass() == Character.class){
+					if(ents[x][y][z] instanceof Character){
 						Character currentChar = (Character)ents[x][y][z];
 						if(currentChar.isPlayer()){
 							return currentChar;

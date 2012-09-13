@@ -10,11 +10,12 @@ import java.util.Stack;
 public class IOen implements KeyListener, MouseListener{	
 	@Override
 	public void keyPressed(KeyEvent arg0) {
+		if(inputEvents.contains(arg0)) return;
 		inputEvents.push(arg0);
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		inputEvents.remove(arg0);
+		while(inputEvents.contains(arg0)) inputEvents.remove(arg0);
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) { }
@@ -41,9 +42,19 @@ public class IOen implements KeyListener, MouseListener{
 		inputEvents = new Stack<InputEvent>();
 	}
 	public InputEvent update(){
+		//printStack();
 		return !inputEvents.empty() ? inputEvents.pop() : null;
 	}
 	public boolean isEmpty(){
 		return inputEvents.empty();
+	}
+	public void printStack(){
+		if(!inputEvents.empty()){
+			System.out.println("====INPUT STACK====");
+			for(InputEvent evt : inputEvents){
+				System.out.println(evt.paramString());
+			}
+			System.out.println("====END STACK====");
+		}
 	}
 }

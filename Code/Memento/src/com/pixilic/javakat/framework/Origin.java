@@ -24,7 +24,7 @@ public class Origin extends Thread{
 		io = new IOen();
 		gfx = new GFXen();
 		
-		gman = new com.pixilic.javakat.mapdemo.Mapman();
+		gman = new com.pixilic.javakat.torvaldChildhoodSounds.ChildhoodSoundsMan();
 		
 		frameSetup();
 		start();

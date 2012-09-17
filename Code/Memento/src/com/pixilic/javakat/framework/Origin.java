@@ -32,7 +32,7 @@ public class Origin extends Thread{
 	public void run(){
 		do {
 			updateLogic();
-			updateGraphicsData();
+			passRenderData();
 			updateGraphics();
 			if(gman.switching()){
 				
@@ -62,7 +62,7 @@ public class Origin extends Thread{
 	public void updateGraphics(){
 		gfx.update();
 	}
-	public void updateGraphicsData(){
+	public void passRenderData(){
 		gfx.setRenderData(gman.getRenderData());
 	}
 	public InputEvent pollInput(){

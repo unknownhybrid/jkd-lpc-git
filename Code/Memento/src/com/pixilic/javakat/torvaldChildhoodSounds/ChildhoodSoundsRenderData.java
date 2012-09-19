@@ -23,7 +23,7 @@ public class ChildhoodSoundsRenderData extends RenderData {
 		background = new BufferedImage(600, 480, BufferedImage.TYPE_INT_ARGB);
 			g = (Graphics2D) background.getGraphics();
 			g.setColor(Color.RED);
-			g.fillRect(0, 0, 600, 480);
+			g.fillRect(0, 0, background.getWidth(), background.getHeight());
 		picturebox = new BufferedImage(background.getWidth()/4, background.getHeight()/4, BufferedImage.TYPE_INT_ARGB);
 			g = (Graphics2D) picturebox.getGraphics();
 			g.setColor(Color.BLACK);
@@ -34,6 +34,10 @@ public class ChildhoodSoundsRenderData extends RenderData {
 			g.drawRect(0, 0, healthbar.getWidth(), healthbar.getHeight());
 			g.setColor(Color.GREEN);
 			g.fillRect(2, 2, healthbar.getWidth() - 2, healthbar.getHeight() - 2);
+		pictureshadow = new BufferedImage(picturebox.getWidth(), picturebox.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			g = (Graphics2D) pictureshadow.getGraphics();
+			g.setColor(Color.GRAY);
+			g.fillRect(0, 0, pictureshadow.getWidth(), pictureshadow.getHeight());
 	}
 	
 	@Override
@@ -47,9 +51,9 @@ public class ChildhoodSoundsRenderData extends RenderData {
 		Graphics2D g = (Graphics2D) render.getGraphics();
 		
 		g.drawImage(background, 0, 0, null);
-		g.drawImage(pictureshadow, render.getWidth()/2 - pictureshadow.getWidth()/2, render.getHeight()/2 - pictureshadow.getHeight()/2, null);
+		g.drawImage(pictureshadow, render.getWidth()/2 - pictureshadow.getWidth()/3, render.getHeight()/2 - pictureshadow.getHeight()/3, null);
 		g.drawImage(picturebox, render.getWidth()/2 - picturebox.getWidth()/2, render.getHeight()/2 - picturebox.getHeight()/2, null); //kinda...in the middle...ish
-		g.drawImage(textbox, render.getWidth()/2 - textbox.getWidth()/2, render.getHeight()/2 + picturebox.getHeight()/2 + render.getHeight()/12, null);
+		//g.drawImage(textbox, render.getWidth()/2 - textbox.getWidth()/2, render.getHeight()/2 + picturebox.getHeight()/2 + render.getHeight()/12, null);
 		//arrows -- g.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
 		g.drawImage(healthbar, 0, healthbar.getHeight()/2, null);
 		
@@ -57,7 +61,7 @@ public class ChildhoodSoundsRenderData extends RenderData {
 	}
 
 	public void update(PictureSong ps, SoundChunk cursor_target, int health) {
-		background = ps.getImage();
+		//background = ps.getImage();
 		picturebox = cursor_target.getImage();
 		healthbar = constructHealthBar(health);
 	}
@@ -68,7 +72,7 @@ public class ChildhoodSoundsRenderData extends RenderData {
 		g.setColor(Color.WHITE);
 		g.drawRect(0, 0, 200, 20);
 		g.setColor(Color.GREEN);
-		g.drawRect(2, 2, 196*(health/100), 16); //fill in the bar an amount equal to a percentage of your max health
+		g.fillRect(2, 2, 196*health/100, 16); //fill in the bar an amount equal to a percentage of your max health
 		
 		return healthbarRender;
 	}

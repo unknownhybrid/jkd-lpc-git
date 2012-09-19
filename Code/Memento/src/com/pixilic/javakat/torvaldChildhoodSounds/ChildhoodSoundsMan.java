@@ -3,6 +3,7 @@ package com.pixilic.javakat.torvaldChildhoodSounds;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,7 +17,7 @@ import com.pixilic.javakat.framework.RenderData;
 
 public class ChildhoodSoundsMan extends GMan {
 
-	private ChildhoodSoundsRenderData renderdata = null;
+	private ChildhoodSoundsRenderData renderdata;
 	
 	private HashMap<PictureSongName, PictureSong> picsongs;
 	private HashMap<WordPartName, WordPart> wordparts;
@@ -27,10 +28,9 @@ public class ChildhoodSoundsMan extends GMan {
 	
 	//health stuff
 	private int health;
-	private long totaltime; //amount of time we've been in game!
 	private long starttime; //starting time of the game
-	private long endtime; //ending time of the game
-	private int looptime; //number of times it takes for health to be decremented
+	private long endtime; //ending time of the game; //endtime - starttime = amount of time we've been in game!
+	static private int looptime = 60; //number of times it takes for health to be decremented
 	private int looptimer; //amount of loops spent so far 
 	private int damage; //amount of health to decrement
 	private int gametimer; //amount of decrements we've done so far
@@ -44,11 +44,19 @@ public class ChildhoodSoundsMan extends GMan {
 		//so sound
 		//man
 		picsongs = new HashMap<PictureSongName, PictureSong>();
+			picsongs.put(PictureSongName.TEST_BLUE, new PictureSong(PictureSongName.TEST_BLUE));
+			picsongs.put(PictureSongName.TEST_BLACK, new PictureSong(PictureSongName.TEST_BLACK));
+			picsongs.put(PictureSongName.TEST_WHITE, new PictureSong(PictureSongName.TEST_WHITE));
+			
 		wordparts = new HashMap<WordPartName, WordPart>();
 		wps = new ArrayList<WordPart>();
 		health = 100;
 		damage = START_LOOP_DAMAGE;
 		starttime = System.nanoTime();
+		renderdata = new ChildhoodSoundsRenderData();
+		ps = picsongs.get(PictureSongName.TEST_BLUE);
+		cursor_target = ps;
+		looptimer = 0;
 	}
 	@Override
 	public void update(InputEvent evt) {
@@ -107,11 +115,17 @@ public class ChildhoodSoundsMan extends GMan {
 			break;
 		case (KeyEvent.VK_Q):
 			if(cursor_target instanceof WordPart){
-				cursor_target = ps != null ? ps : new PictureSong();
+				cursor_target = ps != null ? ps : new PictureSong(null);
 			} else if (cursor_target instanceof PictureSong){
 				break;
 			} else {
 				System.err.println("shit went down in: updateWithKey.\nproblem: cursor_target was an invalid data type.");
+			}
+			break;
+		case (KeyEvent.VK_RIGHT):
+			if(cursor_target instanceof PictureSong){
+				PictureSong ps = (PictureSong)cursor_target;
+				//picsongs.
 			}
 			break;
 		}

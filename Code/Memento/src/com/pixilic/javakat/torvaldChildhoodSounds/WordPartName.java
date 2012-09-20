@@ -1,5 +1,5 @@
 package com.pixilic.javakat.torvaldChildhoodSounds;
 
 public enum WordPartName {
-	WHATTHEFUCKDOICALLTHESE
+	TEST_DEATH, TEST_LIFE, TEST_NATURE, TEST_WATER
 }

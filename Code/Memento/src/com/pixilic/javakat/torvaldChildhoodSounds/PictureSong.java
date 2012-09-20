@@ -17,7 +17,7 @@ public class PictureSong extends SoundChunk{
 	public BufferedImage getImage() {
 		return (BufferedImage)picture;
 	}
-	public BufferedImage createImage(PictureSongName psn){
+	private BufferedImage createImage(PictureSongName psn){
 		BufferedImage img = new BufferedImage(600/4, 480/4, BufferedImage.TYPE_INT_ARGB); //FIXME:abstract the sizes out
 			Graphics2D g = (Graphics2D) img.getGraphics();
 			switch(psn){

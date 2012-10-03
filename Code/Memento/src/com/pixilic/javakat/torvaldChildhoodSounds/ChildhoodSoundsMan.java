@@ -3,10 +3,7 @@ package com.pixilic.javakat.torvaldChildhoodSounds;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import com.pixilic.javakat.framework.GMan;
 import com.pixilic.javakat.framework.RenderData;
@@ -37,8 +34,10 @@ public class ChildhoodSoundsMan extends GMan {
 	private int looptimer; //amount of loops spent so far 
 	private int damage; //amount of health to decrement
 	private int gametimer; //amount of decrements we've done so far
+	private long score; //total score
+	private boolean hasGameEnded; //whether or not the game has totally ended
 	static private int START_LOOP_DAMAGE = 1; //amount of health we start decrementing at the beginning of a loop
-	static private int DAMAGE_WEIGHT = 2; //amount of damage we increase the current damage by per tick. based on gametimer.
+	static private int DAMAGE_WEIGHT = 1; //amount of damage we increase the current damage by per tick. based on gametimer.
 
 	public ChildhoodSoundsMan(){
 		//man
@@ -60,12 +59,13 @@ public class ChildhoodSoundsMan extends GMan {
 			pos_wordparts = 0;
 			
 		wps = new ArrayList<WordPart>();
-		health = 100;
+		health = 200;
 		damage = START_LOOP_DAMAGE;
+		score = 0;
 		starttime = System.nanoTime();
 		renderdata = new ChildhoodSoundsRenderData();
-		ps = picsongs.get(pos_picsongs); //in this example, should be TEST_BLUE
-		cursor_target = ps;
+		ps = null; //in this example, should be TEST_BLUE
+		cursor_target = picsongs.get(pos_picsongs);
 		looptimer = 0;
 	}
 	@Override
@@ -77,25 +77,35 @@ public class ChildhoodSoundsMan extends GMan {
 			updateWithMouse((MouseEvent)evt);
 		}
 		if(looptimer >= looptime){
+			if(evt != null) System.out.println("Event: " + evt.paramString() + ", time: " + evt.getWhen());
 			health -= damage;
 			gametimer++;
-			damage += gametimer*DAMAGE_WEIGHT; //*2 is completely arbitrary. may like to have this be a scaling factor, maybe exponential or some shit I don't know
+			if(evt != null && evt.getWhen() == looptimer) damage = START_LOOP_DAMAGE;
+			damage = gametimer*DAMAGE_WEIGHT; //*2 is completely arbitrary. may like to have this be a scaling factor, maybe exponential or some shit I don't know
 		}
-		if(health <= 0){
+		if(!hasGameEnded){
 			endtime = System.nanoTime();
-			//endSomeShit(endtime - starttime);
+			score = ((endtime - starttime)/80000000)*gametimer;
+			if(health <= 0) hasGameEnded = true;
 		}
 		updateRenderData();
 	}
-
+	
 	private void updateRenderData() {
-		renderdata.update(ps, cursor_target, health);
+		renderdata.update(ps, cursor_target, health, score, health <= 0);
 	}
 	private void updateWithKey(KeyEvent evt) {
 		//functions:
 		//-select
 		//-go back
 		//-move cursor (left or right)
+		if(hasGameEnded){
+			if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+				//do game transition stuff here
+			}
+			return;
+			//this should prevent key input once the game has ended
+		}
 		switch(evt.getKeyCode()){
 		case (KeyEvent.VK_E): //abstract this to be changeable based on user config
 			if(cursor_target instanceof WordPart){

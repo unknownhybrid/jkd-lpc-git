@@ -35,13 +35,13 @@ public class BasicRPGStartMan extends GMan {
 		if(evt instanceof KeyEvent){
 			//and that key is up, we want to move up or cycle around depending on where the cursor is
 			if( ((KeyEvent)evt).getKeyCode() == KeyEvent.VK_UP ){
-				cursor = (cursor == 0) ? MAX_OPTION : cursor--;
+				cursor = (cursor == 0) ? MAX_OPTION : cursor - 1;
 				//TODO: REMOVE THIS TESTING LINE
 				System.out.println("Cursor: " + cursor);
 			}
 			//and that key is down, we want to move down or cycle around depending on where the cursor is
 			else if ( ((KeyEvent)evt).getKeyCode() == KeyEvent.VK_DOWN ){
-				cursor = (cursor == MAX_OPTION) ? 0 : cursor++;
+				cursor = (cursor == MAX_OPTION) ? 0 : cursor + 1;
 				//TODO: REMOVE THIS TESTING LINE
 				System.out.println("Cursor: " + cursor);
 			}

@@ -81,7 +81,7 @@ public class ChildhoodSoundsMan extends GMan {
 			health -= damage;
 			gametimer++;
 			if(evt != null && evt.getWhen() == looptimer) damage = START_LOOP_DAMAGE;
-			damage = gametimer*DAMAGE_WEIGHT; //*2 is completely arbitrary. may like to have this be a scaling factor, maybe exponential or some shit I don't know
+			damage = gametimer*DAMAGE_WEIGHT/4; //*2 is completely arbitrary. may like to have this be a scaling factor, maybe exponential or some shit I don't know
 		}
 		if(!hasGameEnded){
 			endtime = System.nanoTime();
@@ -115,7 +115,7 @@ public class ChildhoodSoundsMan extends GMan {
 				//but not reward adding/removing the same parts
 				//over and over again.
 				//I can fix this later by adding some collection of events of adding and removing
-				//and limiting point gain by a percentage (even entirely) based on repitition
+				//and limiting point gain by a percentage (even entirely) based on repetition
 				if(!wps.contains((WordPart)cursor_target)){
 					/*
 					 * if(wellTimed){
@@ -188,6 +188,11 @@ public class ChildhoodSoundsMan extends GMan {
 	@Override
 	public RenderData getRenderData() {
 		return renderdata;
+	}
+	@Override
+	public GMan getSwapClass() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

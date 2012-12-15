@@ -103,4 +103,10 @@ public class Mapman extends GMan{
 	public void setRenderData(MapRenderer mr) {
 		this.mr = mr;
 	}
+
+	@Override
+	public GMan getSwapClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

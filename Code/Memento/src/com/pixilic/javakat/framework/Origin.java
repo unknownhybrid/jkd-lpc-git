@@ -19,12 +19,24 @@ public class Origin extends Thread{
 	
 	public Origin() {
 		isRunning = true;
-		JFrame frame = new JFrame();	
+		frame = new JFrame();	
 		
 		io = new IOen();
 		gfx = new GFXen();
 		
 		gman = new com.pixilic.javakat.torvaldChildhoodSounds.ChildhoodSoundsMan();
+		
+		frameSetup();
+		start();
+	}
+	public Origin(GMan gman){
+		isRunning = true;
+		frame = new JFrame();
+		
+		io = new IOen();
+		gfx = new GFXen();
+		
+		this.gman = gman;
 		
 		frameSetup();
 		start();
@@ -35,7 +47,7 @@ public class Origin extends Thread{
 			passRenderData();
 			updateGraphics();
 			if(gman.switching()){
-				
+				gman = gman.getSwapClass();
 			}
 		} while(isRunning && gfx.isRunning());
 		disposeGraphics();

@@ -4,6 +4,6 @@ import com.pixilic.javakat.framework.Origin;
 
 public class BasicRPG {
 	public static void main(String[] args) {
-		new Origin(new BasicRPGStartMan()).start();
+		new Origin(new BasicRPGStartMan());
 	}
 }

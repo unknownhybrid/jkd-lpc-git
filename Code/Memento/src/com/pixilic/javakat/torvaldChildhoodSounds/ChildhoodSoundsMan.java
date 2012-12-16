@@ -194,5 +194,4 @@ public class ChildhoodSoundsMan extends GMan {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

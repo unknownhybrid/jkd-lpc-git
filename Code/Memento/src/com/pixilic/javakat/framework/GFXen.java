@@ -1,6 +1,7 @@
 package com.pixilic.javakat.framework;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -26,6 +27,12 @@ public class GFXen {
     private BufferedImage background;
     private Graphics2D backgroundGraphics;
     private Graphics2D graphics;
+    private BufferedImage transition;
+    
+    private Transition t;
+    private int transitionOpacity;
+    private final int transitionSpeed = 10;
+    
     GraphicsConfiguration config =
         GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getDefaultScreenDevice()
@@ -45,6 +52,8 @@ public class GFXen {
         isRunning = true;
         // Canvas
         canvas = new Canvas(config);
+        t = Transition.NONE;
+        transitionOpacity = 0;
     }
     public void setup(int width, int height){
         canvas.setSize(width * scale, height * scale);
@@ -69,6 +78,18 @@ public class GFXen {
                 //it needs to "blank" to whatever the last map-render was
             	backgroundGraphics.drawImage(renderdata.render(), 0, 0, null);
             	backgroundGraphics.drawImage(renderdata.render(), 0, 0, null);
+            	
+            	//if we're transitioning, do that
+            	if(t == Transition.IN || t == Transition.OUT){
+            		transitionOpacity = (t == Transition.IN) ? transitionOpacity - 3 : transitionOpacity + 3;
+            			transitionOpacity = (transitionOpacity > 255/transitionSpeed) ? 255/transitionSpeed : transitionOpacity;
+            			transitionOpacity = (transitionOpacity < 0) ? 0 : transitionOpacity;
+            		transition = new BufferedImage(background.getWidth(), background.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            			Graphics2D tg = (Graphics2D)transition.getGraphics();
+            			tg.setColor(new Color(0, 0, 0, transitionOpacity*transitionSpeed));
+            			tg.fillRect(0, 0, transition.getWidth(), transition.getHeight());
+            		backgroundGraphics.drawImage(transition, 0, 0, null);
+            	}
             	
                 renderGame(backgroundGraphics); // this calls your draw method
                 // thingy
@@ -128,6 +149,20 @@ public class GFXen {
     public boolean isRunning(){
     	return isRunning;
     }
+    public void fade(Transition t){
+    	this.t = t;
+    	if(t == Transition.IN){
+    		transitionOpacity = 255/transitionSpeed;
+    		while(transitionOpacity > 0){
+    			update();
+    		}
+    	} else if (t == Transition.OUT){
+    		transitionOpacity = 0;
+    		while(transitionOpacity < (int)255/transitionSpeed){
+    			update();
+    		}
+    	}
+    }
     protected class FrameClose extends WindowAdapter {
         @Override
         public void windowClosing(final WindowEvent e) {
@@ -170,4 +205,7 @@ public class GFXen {
 			
 		}
     }
+}
+enum Transition {
+	NONE, IN, OUT
 }

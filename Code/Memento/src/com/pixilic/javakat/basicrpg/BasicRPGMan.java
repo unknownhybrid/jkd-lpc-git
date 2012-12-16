@@ -8,6 +8,20 @@ import com.pixilic.javakat.framework.RenderData;
 public class BasicRPGMan extends GMan {
 
 	protected BasicRPGRenderData renderdata;
+	private boolean isSwitching;
+	private Character player;
+	
+	public BasicRPGMan(){
+		renderdata = new BasicRPGRenderData();
+		isSwitching = true;
+		player = null;
+	}
+	public BasicRPGMan(Character player){
+		renderdata = new BasicRPGRenderData();
+		isSwitching = false;
+		this.player = player;
+	}
+	
 	@Override
 	public void update(InputEvent evt) {
 		
@@ -15,20 +29,20 @@ public class BasicRPGMan extends GMan {
 
 	@Override
 	public boolean switching() {
-		
-		return false;
+		return isSwitching;
 	}
 
 	@Override
 	public RenderData getRenderData() {
-		
-		return null;
+		return renderdata;
 	}
 
 	@Override
 	public GMan getSwapClass() {
 		// TODO Auto-generated method stub
-		return null;
+		if(player == null) return new BasicRPGNewCharMan();
+		else return null;
 	}
+
 
 }

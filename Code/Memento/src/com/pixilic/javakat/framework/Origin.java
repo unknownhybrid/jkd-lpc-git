@@ -47,7 +47,10 @@ public class Origin extends Thread{
 			passRenderData();
 			updateGraphics();
 			if(gman.switching()){
+				gfx.fade(Transition.OUT);
 				gman = gman.getSwapClass();
+				passRenderData();
+				gfx.fade(Transition.IN);
 			}
 		} while(isRunning && gfx.isRunning());
 		disposeGraphics();

@@ -32,8 +32,9 @@ public class XMLMapReader {
 			db=null;
 		}
 		
-		String fileName = "rsrc/map/"+mapName+"/map.xml";
-        URL url = XMLMapReader.class.getResource(fileName);
+		String fileName = "rsrc/maps/"+mapName+"/map.xml";
+        //URL url = XMLMapReader.class.getResource(fileName); commented out to get it to work with the basicRPG
+		URL url = com.pixilic.javakat.basicrpg.BasicRPG.class.getResource(fileName);
         Document doc = null;
         try {
             doc = db.parse(new File(url.toURI())); //URL -> URI -> File, Java sucks

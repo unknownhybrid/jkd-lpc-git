@@ -77,7 +77,6 @@ public class GFXen {
                 //this next line blanks the frame
                 //it needs to "blank" to whatever the last map-render was
             	backgroundGraphics.drawImage(renderdata.render(), 0, 0, null);
-            	backgroundGraphics.drawImage(renderdata.render(), 0, 0, null);
             	
             	//if we're transitioning, do that
             	if(t == Transition.IN || t == Transition.OUT){

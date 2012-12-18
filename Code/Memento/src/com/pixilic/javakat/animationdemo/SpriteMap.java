@@ -16,7 +16,7 @@ public class SpriteMap {
 	public SpriteMap (String name, int width, int height) {
 		
 		String imgFileName = "rsrc/"+name+".png";
-        URL url = Origin.class.getResource(imgFileName);
+        URL url = SpriteMap.class.getResource(imgFileName);
         image = null;
         try {
             image = ImageIO.read(url);

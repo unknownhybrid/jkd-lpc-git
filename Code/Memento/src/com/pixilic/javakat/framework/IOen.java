@@ -10,7 +10,10 @@ import java.util.Stack;
 public class IOen implements KeyListener, MouseListener{	
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		if(inputEvents.contains(arg0)) return;
+		for(InputEvent evt : inputEvents){
+			if( ((KeyEvent)evt).getKeyCode() == arg0.getKeyCode() ) return; 
+		}
+		//if(inputEvents.contains(arg0)) return;
 		inputEvents.push(arg0);
 	}
 	@Override

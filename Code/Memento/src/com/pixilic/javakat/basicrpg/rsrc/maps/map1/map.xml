@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map width="64" height="64" name="map1">
+	<entity type="Tile" name="Grass" tlX="0" tlY="0" brX="64" brY="64" z="1" col="false" npcCol="false" mob="false" />
+</map>

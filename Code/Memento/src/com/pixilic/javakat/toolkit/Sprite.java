@@ -14,10 +14,25 @@ public class Sprite {
         sm = new SpriteMap(url, 64, 64);
         an = sm.createPaths();
         //FIXME: change the path here
-        an.setPath(PathName.RUN_LEFT);
+        an.setPath(PathName.RUN_RIGHT);
 	}
 
 	public BufferedImage getRender() {
-		return an.getCurrentPath().currentFrame;
+		return an.getCurrentPath().getCurrentFrame();
+	}
+	public PathName getCurrentPathName(){
+		return an.getCurrentPathName();
+	}
+	public void setCurrentPath(PathName pn){
+		an.setPath(pn);
+	}
+	public void nextFrame(){
+		an.next();
+	}
+	public BufferedImage getPlayerBattleRender(){
+		return an.getPlayerBattlePath().getFirstFrame();
+	}
+	public BufferedImage getEnemyBattleRender(){
+		return an.getEnemyBattlePath().getFirstFrame();
 	}
 }

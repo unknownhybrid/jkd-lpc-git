@@ -17,6 +17,8 @@ public class Map {
 	private boolean[][] physicalmap; //2 dimensions is good enough for now. we only need to store whether or not something will collide!
 									 //true for collisions, false for no collision
 									 //this will not contain information about moving/interacting parts
+	private boolean[][] encountermap;//true if random encounters can occur in this square, false otherwise
+	private final double encounterRate = 0.1; //odds of beginning a random battle when stepping on an encounter-legal tile
 	//private int[][][] physicalmap; //3 dimensions! whoo!
 	private MapTiles mt;
 	private int width = 16; //number of pixels wide the mapfile image is
@@ -35,6 +37,7 @@ public class Map {
 		}
 		mt = new MapTiles();
 		physicalmap = new boolean[width][width]; //in the first test, it's square; it need not be
+		encountermap = new boolean[width][width];
 		generateMapRenderAndGeography();
 	}
 	
@@ -73,24 +76,30 @@ public class Map {
 		for(int y = 0; y < width; y++){
 			for(int x = 0; x < width; x++){
 				physicalmap[x][y] = true;
+				encountermap[x][y] = false;
 			}
 		}
 
-		physicalmap[0][0] = false;
-		physicalmap[1][0] = false;
-		physicalmap[2][0] = false;
-		physicalmap[0][1] = false;
-		physicalmap[1][1] = false;
-		physicalmap[2][1] = false;
-		
-		Graphics2D g = mapimg.createGraphics();
-		for(int y = 0; y < width; y++){
-			for(int x = 0; x < width; x++){
-				if(!physicalmap[x][y]) g.setColor(Color.GREEN); 
-				else g.setColor(Color.BLACK);
-				g.fillRect(x*tileWidth, y*tileWidth, tileWidth, tileHeight);
+		for(int y = 0; y < 5; y++){
+			for(int x = 0; x < 5; x++){
+				physicalmap[x][y] = false;
+				encountermap[x][y] = true;
 			}
 		}
+		
+		Graphics2D g = mapimg.createGraphics();
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, mapimg.getWidth(), mapimg.getHeight());
+		for(int y = 0; y < width; y++){
+			for(int x = 0; x < width; x++){
+				if(!physicalmap[x][y]) 
+					g.drawImage(MapTiles.GrassCenter, x*32, y*32, null);
+				else g.drawImage(MapTiles.LoneBarrel1, x*32, y*32, null);
+			}
+		}
+	}
+	public boolean[][] getPhysicalMap(){
+		return physicalmap;
 	}
 	private void printMap(){
 		//THIS METHOD IS FOR TESTING ONLY
@@ -108,5 +117,13 @@ public class Map {
 		System.out.println("    END TEST");
 		System.out.println("=================");
 		
+	}
+
+	public boolean[][] getEncounterMap() {
+		return encountermap;
+	}
+
+	public double getEncounterRate() {
+		return encounterRate;
 	}
 }

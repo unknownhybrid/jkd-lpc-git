@@ -40,4 +40,10 @@ public class Animation {
 	public boolean isActive(){
 		return active;
 	}
+	public AnimationPath getPlayerBattlePath(){
+		return paths.get(PathName.RUN_RIGHT);
+	}
+	public AnimationPath getEnemyBattlePath(){
+		return paths.get(PathName.RUN_LEFT);
+	}
 }

@@ -46,12 +46,6 @@ public class Origin extends Thread{
 			updateLogic();
 			passRenderData();
 			updateGraphics();
-			if(gman.switching()){
-				gfx.fade(Transition.OUT);
-				gman = gman.getSwapClass();
-				passRenderData();
-				gfx.fade(Transition.IN);
-			}
 		} while(isRunning && gfx.isRunning());
 		disposeGraphics();
 	}
@@ -76,6 +70,12 @@ public class Origin extends Thread{
 	}
 	public void updateGraphics(){
 		gfx.update();
+		if(gman.switching()){
+			gfx.fade(Transition.OUT);
+			gman = gman.getSwapClass();
+			passRenderData();
+			gfx.fade(Transition.IN);
+		}
 	}
 	public void passRenderData(){
 		gfx.setRenderData(gman.getRenderData());

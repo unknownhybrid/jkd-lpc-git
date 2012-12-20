@@ -211,5 +211,4 @@ public class BasicRPGNewCharRenderData extends RenderData {
 			g.setFont(Font.getFont("Arial"));
 			g.drawString("Bonus Points: " + player.points, 30, 25);
 	}
-
 }

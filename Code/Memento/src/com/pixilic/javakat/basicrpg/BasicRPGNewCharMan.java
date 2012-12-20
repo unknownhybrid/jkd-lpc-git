@@ -13,7 +13,9 @@ public class BasicRPGNewCharMan extends GMan {
 	BasicRPGNewCharRenderData renderdata;
 	int cursor;
 	int rolekey;
+	
 	boolean isSwitching;
+	boolean isSetRole = false;
 	
 	static final int WARR_KEY = 0;
 	static final int MAGE_KEY = 1;
@@ -43,7 +45,13 @@ public class BasicRPGNewCharMan extends GMan {
 		cursor = 0;
 		isSwitching = false;
 	}
-	
+	public BasicRPGNewCharMan(Character player, Character playercopy){
+		this.player = player;
+		this.playercopy = player;
+		isSetRole = true;
+		renderdata = new BasicRPGNewCharRenderData(player);
+		
+	}
 	
 	@Override
 	public void update(InputEvent evt) {
@@ -65,7 +73,7 @@ public class BasicRPGNewCharMan extends GMan {
 					
 				}
 			}
-			if(cursor == 1){
+			if(cursor == 1 && !isSetRole){
 				if( ((KeyEvent)evt).getKeyCode() == KeyEvent.VK_LEFT ){
 					//Alright so this line is pretty dense. Here's the dissection of what we do:
 					//1. If rolekey - 1 is less than 0, store MAX_KEY in rolekey. Otherwise, store rolekey - 1 in rolekey.
@@ -238,5 +246,12 @@ public class BasicRPGNewCharMan extends GMan {
 			System.err.println("ERROR: Invalid role key. Defaulting to warrior.");
 			return Role.WARRIOR;
 		}
+	}
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 }

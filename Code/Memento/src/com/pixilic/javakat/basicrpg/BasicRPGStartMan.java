@@ -96,5 +96,11 @@ public class BasicRPGStartMan extends GMan {
 		return null;
 	}
 
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 

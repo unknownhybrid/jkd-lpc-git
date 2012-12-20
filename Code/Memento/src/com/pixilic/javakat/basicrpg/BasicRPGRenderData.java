@@ -10,16 +10,13 @@ public class BasicRPGRenderData extends RenderData {
 
 	private BufferedImage maprender;
 	private BufferedImage sprite;
-	private int x, y;
+	private float x, y;
 	
-	
-	public BasicRPGRenderData(BufferedImage maprender, BufferedImage sprite, int x, int y){
+	public BasicRPGRenderData(BufferedImage maprender, BufferedImage sprite, float x, float y){
 		this.maprender = maprender;
 		this.sprite = sprite;
 		this.x = x;
 		this.y = y;
-		
-		System.out.println("x: " + x + ", y: " + y);
 	}
 	@Override
 	public void forceRender() {
@@ -31,8 +28,13 @@ public class BasicRPGRenderData extends RenderData {
 		BufferedImage render = new BufferedImage(maprender.getWidth(), maprender.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = render.createGraphics();
 			g.drawImage(maprender, 0, 0, null);
-			g.drawImage(sprite, x*32, y*32, null);
+			g.drawImage(sprite, (int)x*32, (int)y*32, null);
 		return render;
 	}
 
+	public void update(BufferedImage sprite, float x, float y, boolean isMoving){
+		this.sprite = sprite;
+		this.x = x;
+		this.y = y;
+	}
 }

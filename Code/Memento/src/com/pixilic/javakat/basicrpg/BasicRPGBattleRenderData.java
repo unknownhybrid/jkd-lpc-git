@@ -10,6 +10,8 @@ import com.pixilic.javakat.framework.RenderData;
 public class BasicRPGBattleRenderData extends RenderData {
 
 	private Character player, enemy;
+	private Menu abilityMenu;
+	private Menu itemMenu;
 	
 	private BufferedImage playerSprite;
 	private BufferedImage enemySprite;
@@ -23,14 +25,17 @@ public class BasicRPGBattleRenderData extends RenderData {
 	private BufferedImage mpimg;
 	private BufferedImage menuimg;
 	private BufferedImage enemyhpbar;
+
 	//private BufferedImage damageimg;
 	
 	//TEST IMAGE
 	private BufferedImage levelimg;
 	
-	public BasicRPGBattleRenderData(Character player, Character enemy){
+	public BasicRPGBattleRenderData(Character player, Character enemy, Menu abilityMenu, Menu itemMenu){
 		this.player = player;
 		this.enemy = enemy;
+		this.abilityMenu = abilityMenu;
+		this.itemMenu = itemMenu;
 		playerSprite = player.sprite.getPlayerBattleRender(); //this is here to reduce runtime overhead; technically we could make this call every update though
 		enemySprite = enemy.sprite.getEnemyBattleRender();
 		cursor = 0;
@@ -57,16 +62,23 @@ public class BasicRPGBattleRenderData extends RenderData {
 			g.drawImage(playerSprite, 30, 230, null);
 			g.drawImage(enemySprite, render.getWidth() - enemySprite.getWidth(), 230, null);
 			g.drawImage(playernametext, 0, 361, null);
-			g.drawImage(hpimg, 0, 381, null);
-			g.drawImage(mpimg, 0, 396, null);
-			g.drawImage(levelimg, 0, 411, null);
-			g.drawImage(menuimg, 120, 361, null);
-			g.drawImage(cursorimg, 165 - 3, 361 + 35 + (15*cursor), null);
+			g.drawImage(levelimg, 0, 381, null);
+			g.drawImage(hpimg, 0, 396, null);
+			g.drawImage(mpimg, 0, 411, null);
+			if(abilityMenu.getDisplayStatus()) {
+				g.drawImage(abilityMenu.getRender(), 120, 361, null);
+				g.drawImage(cursorimg, 165 - 3, 361 + 35 + (15*abilityMenu.getCursorPosition()), null);
+			}
+			//else if(itemMenu.getDisplayStatus()) g.drawImage(itemMenu.getRender(), 120, 361, null);
+			else {
+				g.drawImage(menuimg, 120, 361, null);
+				g.drawImage(cursorimg, 165 - 3, 361 + 35 + (15*cursor), null);
+			}
 			g.drawImage(enemynametext, render.getWidth() - (enemynametext.getWidth()), 361, null);
 			g.drawImage(enemyhpbar, render.getWidth() - (enemynametext.getWidth()), 391, null);
 		return render;
 	}
-	public void update(Character player, Character enemy, int cursor){
+	public void update(Character player, Character enemy, int cursor, Menu abilityMenu){
 		this.player = player;
 		this.enemy = enemy;
 		this.cursor = cursor;
@@ -86,7 +98,7 @@ public class BasicRPGBattleRenderData extends RenderData {
 		levelimg = new BufferedImage(100, 30, BufferedImage.TYPE_INT_ARGB);
 			g = levelimg.createGraphics();
 			g.setColor(Color.WHITE);
-			g.drawString("Level: " + player.level, 0, 25);
+			g.drawString("Level: " + player.level + "(" + player.xp + "/" + player.level*10 + ")", 0, 25);
 	}
 	private void updateImages(){
 
@@ -105,25 +117,25 @@ public class BasicRPGBattleRenderData extends RenderData {
 		hpimg = new BufferedImage(100, 30, BufferedImage.TYPE_INT_ARGB);
 			g = hpimg.createGraphics();
 			g.setColor(Color.WHITE);
-			g.drawString("HP: " + player.HP + " / " + player.HP, 0, 25);
+			g.drawString("HP: " + player.currentHP + " / " + player.HP, 0, 25);
 		
 		mpimg = new BufferedImage(100, 30, BufferedImage.TYPE_INT_ARGB);
 			g = mpimg.createGraphics();
 			g.setColor(Color.WHITE);
-			g.drawString("MP: " + player.MP + " / " + player.MP, 0, 25);
+			g.drawString("MP: " + player.currentMP + " / " + player.MP, 0, 25);
 			
 		enemyhpbar = new BufferedImage(120, 15, BufferedImage.TYPE_INT_ARGB);
 			g = enemyhpbar.createGraphics();
 			g.setColor(Color.WHITE);
 			g.drawRect(0, 0, enemyhpbar.getWidth()-3, enemyhpbar.getHeight()-1);
 			g.setColor(calculateColorBasedOnRemainingHP(enemy.currentHP, enemy.HP));
-			g.fillRect(4, 4, calculateWidthBasedOnRemainingHP(enemy.currentHP, enemy.HP, enemyhpbar.getWidth()-5), enemyhpbar.getHeight()-5);
+			g.fillRect(4, 4, calculateWidthBasedOnRemainingHP(enemy.currentHP, enemy.HP, enemyhpbar.getWidth()-9), enemyhpbar.getHeight()-8);
 		
 		menuimg = new BufferedImage(200, 120, BufferedImage.TYPE_INT_ARGB);
 			g = menuimg.createGraphics();
 			g.setColor(Color.WHITE);
-			g.drawRect(0, 0, menuimg.getWidth()-3, menuimg.getHeight());
-			g.drawRect(1, 1, menuimg.getWidth()-4, menuimg.getHeight());
+			g.drawRect(0, 0, menuimg.getWidth()-3, menuimg.getHeight()-3);
+			g.drawRect(1, 1, menuimg.getWidth()-4, menuimg.getHeight()-4);
 			g.drawString("MENU", 5, 25);
 			g.drawString("Attack", 50, 40);
 			g.drawString(player.abilityset.getAvailableAbilities().get(0).getDisplayableType(), 50, 55);

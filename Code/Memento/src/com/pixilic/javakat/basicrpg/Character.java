@@ -1,5 +1,7 @@
 package com.pixilic.javakat.basicrpg;
 
+import java.util.ArrayList;
+
 import com.pixilic.javakat.toolkit.Entity;
 import com.pixilic.javakat.toolkit.Sprite;
 import com.pixilic.javakat.toolkit.PathEnum.PathName;
@@ -24,6 +26,8 @@ public class Character extends com.pixilic.javakat.toolkit.Entity{
 	int points;
 	
 	AbilitySet abilityset;
+	
+	StatusEffect status = StatusEffect.NONE;
 	
 	boolean isMoving;
 	boolean isInCombat = false;
@@ -68,7 +72,7 @@ public class Character extends com.pixilic.javakat.toolkit.Entity{
 		case WARRIOR:
 			role = "Warrior";
 			HP = currentHP = 20;
-			MP = currentHP = 0;
+			MP = currentMP = 0;
 			STR = 14;
 			DEF = 8;
 			SPD = 8;
@@ -79,7 +83,7 @@ public class Character extends com.pixilic.javakat.toolkit.Entity{
 		case MAGE:
 			role = "Mage";
 			HP = currentHP = 8;
-			MP = currentHP = 12;
+			MP = currentMP = 12;
 			STR = 4;
 			DEF = 6;
 			SPD = 10;
@@ -237,6 +241,98 @@ public class Character extends com.pixilic.javakat.toolkit.Entity{
 		enemy.currentHP = (enemy.currentHP < 0) ? 0 : enemy.currentHP;
 		return enemy.currentHP <= 0;
 	}
+	public boolean use(Ability ability){
+		
+		Effect effect = ability.getEffect();
+		if(effect.statuseffect == StatusEffect.FLEE) return true;
+		if(effect.target == Target.TARGETS_ENEMY){
+			System.err.println("How did this even HAPPEN?");
+			System.err.println("Check the code for handling " + ability.getDisplayableName() + ", you apparently");
+			System.err.println("used the targetless version of use when you clearly had a target.");
+			return false;
+		}
+		//right now, I'm just handling abilities that target the player.
+		//later, I should add handles for abilities that have no target
+		//(global abilities).
+		
+		int damage;
+		//make sure healing effects aren't reduced by high MDF
+		damage = (effect.statuseffect == StatusEffect.HEAL) ? (int)(valueOf(effect.dependentstat)*effect.damageRatio) : (int)(valueOf(effect.dependentstat)*effect.damageRatio) - defenseFor(effect.dependentstat);
+		currentHP = (currentHP - damage > 0) ? currentHP - damage : 0;
+		
+		status = effect.statuseffect;
+		
+		return currentHP <= 0;
+	}
+	private int defenseFor(DependentStat dependentstat) {
+		switch(dependentstat){
+		case STR:
+			return DEF;
+		case DEF:
+			return DEF;
+		case SPD:
+			return DEF;
+		case MAG:
+			return MDF;
+		case MDF:
+			return MDF;
+		case LCK:
+			return DEF;
+		case STR_MAG:
+			return (DEF + MDF)/2;
+		case STR_SPD:
+			return DEF;
+		case SPD_LCK:
+			return DEF;
+		case NONE:
+		default:
+			return 0;
+		}
+	}
+	private int valueOf(DependentStat dependentstat) {
+		switch(dependentstat){
+		case STR:
+			return STR;
+		case DEF:
+			return DEF;
+		case SPD:
+			return SPD;
+		case MAG:
+			return MAG;
+		case MDF:
+			return MDF;
+		case LCK:
+			return LCK;
+		case STR_MAG:
+			return (STR + MAG)/2;
+		case STR_SPD:
+			return (STR + SPD)/2;
+		case SPD_LCK:
+			return (SPD + LCK)/2;
+		case NONE:
+		default:
+			return 0;
+		}
+	}
+	public boolean use(Ability ability, Character enemy){
+		
+		Effect effect = ability.getEffect();
+		
+		if(effect.target != Target.TARGETS_ENEMY){
+			System.err.println("How did this even HAPPEN?");
+			System.err.println("Check the code for handling " + ability.getDisplayableName() + ", you apparently");
+			System.err.println("used the targetless version of use when you clearly had a target.");
+			return false;
+		}
+		
+		int damage;
+		//make sure healing effects aren't reduced by high MDF
+		damage = (effect.statuseffect == StatusEffect.HEAL) ? (int)(valueOf(effect.dependentstat)*effect.damageRatio) : (int)(valueOf(effect.dependentstat)*effect.damageRatio) - enemy.defenseFor(effect.dependentstat);
+		enemy.currentHP = (enemy.currentHP - damage > 0) ? enemy.currentHP - damage : 0;
+		
+		enemy.status = effect.statuseffect;
+		return  enemy.currentHP <= 0;
+	}
 	public boolean runFrom(Character enemy) {
 		int effectiveSPD;
 		effectiveSPD = (Math.random()*100 <= (LCK - enemy.LCK)) ? SPD*3 : SPD;
@@ -252,7 +348,13 @@ public class Character extends com.pixilic.javakat.toolkit.Entity{
 		}
 		return false;
 	}
-	
+	public ArrayList<MenuOption> getAbilitiesAsMenuOptions(){
+		ArrayList<MenuOption> menuOptions = new ArrayList<MenuOption>();
+		for(Ability a : abilityset.availableAbilities){
+			menuOptions.add(new MenuOption(a));
+		}
+		return menuOptions;
+	}
 }
 
 enum Role {

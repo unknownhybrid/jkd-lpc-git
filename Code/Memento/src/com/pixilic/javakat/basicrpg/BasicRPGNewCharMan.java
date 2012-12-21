@@ -88,19 +88,18 @@ public class BasicRPGNewCharMan extends GMan {
 			}
 			if(isStat()){
 				if( ((KeyEvent)evt).getKeyCode() == KeyEvent.VK_LEFT ){
-					System.out.println("HP: " + player.HP);
-					System.out.println("HP (copy): " + playercopy.HP);
-					System.out.println("Bonus: " + player.points); 
 					switch(cursor){
 					case HP:
 						if(player.HP > playercopy.HP){
 							player.HP--; 
+							player.currentHP--;
 							player.points++;
 						}
 						break;
 					case MP:
 						if(player.MP > playercopy.MP){ 
 							player.MP--; 
+							player.currentMP--;
 							player.points++;
 						}
 						break;
@@ -148,13 +147,15 @@ public class BasicRPGNewCharMan extends GMan {
 					switch(cursor){
 					case HP:
 						if(player.points > 0){ 
-							player.HP++; 
+							player.HP++;
+							player.currentHP++;
 							player.points--;
 						}
 						break;
 					case MP:
 						if(player.points > 0){ 
 							player.MP++; 
+							player.currentMP++;
 							player.points--;
 						}
 						break;
